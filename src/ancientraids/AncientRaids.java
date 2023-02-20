@@ -1,18 +1,15 @@
-package example;
+package ancientraids;
 
 import arc.*;
 import arc.util.*;
-import mindustry.*;
-import mindustry.content.*;
 import mindustry.game.EventType.*;
-import mindustry.gen.*;
 import mindustry.mod.*;
 import mindustry.ui.dialogs.*;
 
-public class ExampleJavaMod extends Mod{
+public class AncientRaids extends Mod{
 
-    public ExampleJavaMod(){
-        Log.info("Loaded ExampleJavaMod constructor.");
+    public AncientRaids(){
+        Log.info("Loaded AncientRaids constructor.");
 
         //listen for game load event
         Events.on(ClientLoadEvent.class, e -> {
