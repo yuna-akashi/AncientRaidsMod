@@ -17,6 +17,11 @@ ext{
     mindustryVersion = 'v141'
     jabelVersion = "93fde537c7"
     sdkRoot = System.getenv("ANDROID_HOME") ?: System.getenv("ANDROID_SDK_ROOT")
+
+    doExec = { cmd ->
+        def proc = cmd.execute(null, new File("$buildDir/libs"))
+        proc.waitForProcessOutput(System.out, System.err)
+    }
 }
 
 //java 8 backwards compatibility flag
@@ -27,6 +32,7 @@ allprojects{
 }
 
 dependencies{
+    compileOnly 'org.jetbrains:annotations:22.0.0'
     compileOnly "com.github.Anuken.Arc:arc-core:$mindustryVersion"
     compileOnly "com.github.Anuken.MindustryJitpack:core:$mindustryVersion"
 
@@ -57,7 +63,7 @@ task jarAndroid{
 
         //dex and desugar files - this requires d8 in your PATH
         "d8 $dependencies --min-api 14 --output ${project.archivesBaseName}Android.jar ${project.archivesBaseName}Desktop.jar"
-            .execute(null, new File("$buildDir/libs")).waitForProcessOutput(System.out, System.err)
+                .execute(null, new File("$buildDir/libs")).waitForProcessOutput(System.out, System.err)
     }
 }
 
@@ -77,7 +83,18 @@ jar{
     }
 }
 
-task deploy(type: Jar){
+task deploy(type : Jar){
+    def fi = new File("$rootDir/mod.hjson")
+    fi.withReader { reader ->
+        def lines = reader.readLines()
+        fi.withWriter { writer ->
+            lines.each { line ->
+                def check = line.split(":")[0] == "minGameVersion"
+                if(!check) writer.append("$line\r\n")
+            }
+            writer.append("minGameVersion: ${mindustryVersion.split("v")[1]}\r\n")
+        }
+    }
     dependsOn jarAndroid
     dependsOn jar
     archiveFileName = "${project.archivesBaseName}.jar"
@@ -85,9 +102,7 @@ task deploy(type: Jar){
     from{ [zipTree("$buildDir/libs/${project.archivesBaseName}Desktop.jar"), zipTree("$buildDir/libs/${project.archivesBaseName}Android.jar")] }
 
     doLast{
-        delete{
-            delete "$buildDir/libs/${project.archivesBaseName}Desktop.jar"
-            delete "$buildDir/libs/${project.archivesBaseName}Android.jar"
-        }
+        delete{ delete "$buildDir/libs/${project.archivesBaseName}Desktop.jar" }
+        delete{ delete "$buildDir/libs/${project.archivesBaseName}Android.jar" }
     }
 }
