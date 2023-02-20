@@ -1,5 +1,6 @@
 package ancientraids;
 
+import ancientraids.content.*;
 import arc.*;
 import arc.util.*;
 import mindustry.game.EventType.*;
@@ -7,6 +8,15 @@ import mindustry.mod.*;
 import mindustry.ui.dialogs.*;
 
 public class AncientRaids extends Mod{
+    public static final String MOD_RELEASES = "https://github.com/Yunatexya/AncientRaidsMod/releases";
+    public static final String MOD_REPO = "Yunatexya/AncientRaidMod";
+    public static final String MOD_GITHUB_URL = "https://github.com/Yunatexya/AncientRaidMod.git";
+    public static final String MOD_NAME = "ancient-raids";
+
+    public static Mods.LoadedMod MOD;
+    public static String name(String name){
+        return MOD_NAME + "-" + name;
+    }
 
     public AncientRaids(){
         Log.info("Loaded AncientRaids constructor.");
@@ -27,7 +37,15 @@ public class AncientRaids extends Mod{
 
     @Override
     public void loadContent(){
-        Log.info("Loading some example content.");
+        Log.info("Loading content.");
+
+        {
+            ARItems.load();
+            ARLiquids.load();
+            ARBlocks.load();
+            ARUnits.load();
+            ARTTechTree.load();
+        }
     }
 
 }
