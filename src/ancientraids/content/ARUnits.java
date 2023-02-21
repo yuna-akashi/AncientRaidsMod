@@ -1,14 +1,17 @@
 package ancientraids.content;
 
 import ancientraids.AncientRaids;
+import mindustry.content.Fx;
+import mindustry.content.StatusEffects;
 import mindustry.entities.bullet.LaserBulletType;
 import mindustry.gen.EntityMapping;
+import mindustry.type.StatusEffect;
 import mindustry.type.UnitType;
 import mindustry.type.Weapon;
 
 public class ARUnits {
     public static Weapon
-            ancientLaser
+            ancientLargeLaserWeapon
     ;
     public static UnitType
             ancientDagger
@@ -19,19 +22,24 @@ public class ARUnits {
     }
 
     private static void loadWeapon(){
-        ancientLaser = new Weapon(AncientRaids.name("ancient-laser")){{
-            mirror = true;
-            shootY = 3f;
-
-            recoil = 0f;
-            reload = 20f;
+        ancientLargeLaserWeapon = new Weapon(AncientRaids.name("ancient-large-laser-weapon")){{
+            reload = 13f;
+            x = 4f;
+            y = 2f;
+            top = false;
+            ejectEffect = Fx.casing1;
 
             bullet = new LaserBulletType(){{
                 damage = 10;
-                maxRange = 144f;
-                width = 6f;
+                width = 7f;
+                lifetime = 30f;
+                maxRange = 150f;
                 length = maxRange;
+
+                status = StatusEffects.shocked;
+                statusDuration = 0.5f * 60f;
             }};
+
         }};
     }
 
@@ -43,7 +51,7 @@ public class ARUnits {
             hitSize = 8f;
             health = 150;
             weapons.add(
-                    ancientLaser
+                    ancientLargeLaserWeapon
             );
         }};
     }

@@ -1,8 +1,8 @@
 displayName: "Ancient Raids"
 name: "ancient-raids"
 author: "You"
-main: "example.ExampleJavaMod"
+main: "ancientraids.AncientRaids"
 description: "Defend from Ancient technology. It's beta"
-version: 0.0.1
-minGameVersion: 140
+version: 0.0.2
 java: true
+minGameVersion: 141
