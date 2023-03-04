@@ -8,12 +8,12 @@ import mindustry.mod.*;
 import mindustry.ui.dialogs.*;
 
 public class AncientRaids extends Mod{
-    public static final String MOD_RELEASES = "https://github.com/Yunatexya/AncientRaidsMod/releases";
-    public static final String MOD_REPO = "Yunatexya/AncientRaidMod";
-    public static final String MOD_GITHUB_URL = "https://github.com/Yunatexya/AncientRaidMod.git";
+//    public static final String MOD_RELEASES = "https://github.com/Yunatexya/AncientRaidsMod/releases";
+//    public static final String MOD_REPO = "Yunatexya/AncientRaidMod";
+//    public static final String MOD_GITHUB_URL = "https://github.com/Yunatexya/AncientRaidMod.git";
     public static final String MOD_NAME = "ancient-raids";
 
-    public static Mods.LoadedMod MOD;
+    //public static Mods.LoadedMod MOD;
     public static String name(String name){
         return MOD_NAME + "-" + name;
     }
@@ -25,11 +25,11 @@ public class AncientRaids extends Mod{
         Events.on(ClientLoadEvent.class, e -> {
             //show dialog upon startup
             Time.runTask(10f, () -> {
-                BaseDialog dialog = new BaseDialog("frog");
-                dialog.cont.add("behold").row();
+                BaseDialog dialog = new BaseDialog("Attention");
+                dialog.cont.add("Ancient raids Mod loaded.").row();
                 //mod sprites are prefixed with the mod name (this mod is called 'example-java-mod' in its config)
-                dialog.cont.image(Core.atlas.find("ancient-raids-frog")).pad(20f).row();
-                dialog.cont.button("I see", dialog::hide).size(100f, 50f);
+                dialog.cont.image(Core.atlas.find("ancient-raids-icon-2")).pad(20f).row();
+                dialog.cont.button("Close", dialog::hide).size(100f, 50f);
                 dialog.show();
             });
         });
@@ -40,11 +40,14 @@ public class AncientRaids extends Mod{
         Log.info("Loading content.");
 
         {
+            ARTeams.load();
             ARItems.load();
             ARLiquids.load();
-            ARBlocks.load();
             ARUnits.load();
-            ARTTechTree.load();
+            ARBlocks.load();
+            ARPlanets.load();
+            // ARSectorPresets.load();
+            ARTechTree.load();
         }
     }
 
