@@ -43,6 +43,7 @@ public class AncientRaids extends Mod{
             ARTeams.load();
             ARItems.load();
             ARLiquids.load();
+            ARBullets.load();
             ARUnits.load();
             ARBlocks.load();
             ARPlanets.load();

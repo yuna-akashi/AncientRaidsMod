@@ -1,7 +1,10 @@
 package ancientraids.content;
 
 import ancientraids.AncientRaids;
+import arc.func.Cons;
 import arc.graphics.Color;
+import arc.struct.Seq;
+import mindustry.ai.UnitCommand;
 import mindustry.ai.types.AssemblerAI;
 import mindustry.ai.types.BuilderAI;
 import mindustry.ai.types.CargoAI;
@@ -32,6 +35,8 @@ public class ARUnits {
 
     public static Weapon laserCannon;
 
+    public static Weapon basicBossWeapon;
+
     public static UnitType
             //leg base
             ancientDagger,
@@ -42,7 +47,7 @@ public class ARUnits {
             spore,
 
             //greece unit
-            delta, epsilon, zehta, eta/*, theta, iota, kappa, lambda, mu, nu, xi, omicron, pi, rho, sigma, tau, upsilon, phi, chi, psi*/, omega,
+            delta, epsilon, zehta, eta, theta/*, iota, kappa, lambda, mu, nu, xi, omicron, pi, rho, sigma, tau, upsilon, phi, chi, psi*/, omega,
 
             //special
             ancientAssemblyDrone, ancientCargoDrone, ancientPayloadCargoDrone
@@ -67,6 +72,7 @@ public class ARUnits {
         EntityMapping.nameMap.put(AncientRaids.name("epsilon"), EntityMapping.idMap[5]);
         EntityMapping.nameMap.put(AncientRaids.name("zehta"), EntityMapping.idMap[5]);
         EntityMapping.nameMap.put(AncientRaids.name("eta"), EntityMapping.idMap[5]);
+        EntityMapping.nameMap.put(AncientRaids.name("theta"), EntityMapping.idMap[5]);
         EntityMapping.nameMap.put(AncientRaids.name("omega"), EntityMapping.idMap[5]);
 
         EntityMapping.nameMap.put(AncientRaids.name("ancient-assembly-drone"), EntityMapping.idMap[36]);
@@ -81,6 +87,27 @@ public class ARUnits {
 
             ammoType = new ItemAmmoType(ARItems.aMetal);
         }
+    }
+
+    public static Weapon copyAnd(Weapon weapon, Cons<Weapon> modifier){
+        Weapon n = weapon.copy();
+        modifier.get(n);
+        return n;
+    }
+
+    public static Weapon copyAndMove(Weapon weapon, float x, float y){
+        Weapon n = weapon.copy();
+        n.x = x;
+        n.y = y;
+        return n;
+    }
+
+    public static Weapon copyAndMoveAnd(Weapon weapon, float x, float y, Cons<Weapon> modifier){
+        Weapon n = weapon.copy();
+        n.x = x;
+        n.y = y;
+        modifier.get(n);
+        return n;
     }
 
     private static void loadWeapon(){
@@ -116,7 +143,20 @@ public class ARUnits {
     }
 
     private static void loadBossWeapon(){
+        basicBossWeapon = new Weapon("basic-boss-weapon"){{
+            shootY = 10f;
 
+            reload = 450;
+            recoil = 5f;
+            inaccuracy = 0f;
+
+            bullet = new BasicBulletType(30f, 5000){{
+                width = 10f;
+                height = 14f;
+                lifetime = 300f;
+                pierceArmor = true;
+            }};
+        }};
     }
 
     public static void load(){
@@ -201,14 +241,54 @@ public class ARUnits {
             health = 15248100;
 
             outlineColor = Pal.darkOutline;
+
+            weapons.addAll(
+                    basicBossWeapon,
+                    basicBossWeapon
+            );
         }};
 
         //endregion
         //region greece unit
 
+
         ///core unit
+
         delta = new ARUnitType("delta"){{
-            localizedName = "δ";
+            localizedName = "DELTA";
+
+            defaultCommand = UnitCommand.moveCommand;
+
+            isEnemy = false;
+            envDisabled = 0;
+            outlineColor = Pal.darkOutline;
+
+            mineWalls = true;
+            mineItems = Seq.with(ARItems.aScrap);
+            mineHardnessScaling = false;
+            mineSpeed = 7.25f;
+            mineTier = 10;
+            drag = 0.08f;
+            speed = 7.5f;
+            rotateSpeed = 8f;
+            accel = 0.08f;
+            itemCapacity = 120;
+            health = 1000f;
+            armor = 20f;
+            hitSize = 12f;
+
+            fogRadius = 0f;
+
+            engineOffset = 7.5f;
+            engineSize = 3.4f;
+
+            setEnginesMirror(
+                    new UnitEngine(35 / 4f, -13 / 4f, 2.7f, 315f),
+                    new UnitEngine(28 / 4f, -35 / 4f, 2.7f, 315f)
+            );
+        }};
+        epsilon = new ARUnitType("epsilon"){{
+            localizedName = "EPSILON";
 
             coreUnitDock = true;
             controller = u -> new BuilderAI(true, coreFleeRange);
@@ -278,8 +358,8 @@ public class ARUnits {
             }});
         }};
 
-        epsilon = new ARUnitType("epsilon"){{
-            localizedName = "ε";
+        zehta = new ARUnitType("zehta"){{
+            localizedName = "ZEHTA";
 
             coreUnitDock = true;
             controller = u -> new BuilderAI(true, coreFleeRange);
@@ -349,8 +429,8 @@ public class ARUnits {
             }});
         }};
 
-        zehta = new ARUnitType("zehta"){{
-            localizedName = "ζ";
+        eta = new ARUnitType("eta"){{
+            localizedName = "ETA";
 
             coreUnitDock = true;
             controller = u -> new BuilderAI(true, coreFleeRange);
@@ -420,8 +500,8 @@ public class ARUnits {
             }});
         }};
 
-        eta = new ARUnitType("eta"){{
-            localizedName = "η";
+        theta = new ARUnitType("theta"){{
+            localizedName = "THETA";
 
             coreUnitDock = true;
             controller = u -> new BuilderAI(true, coreFleeRange);
@@ -492,7 +572,7 @@ public class ARUnits {
 
         ///default
         omega = new ARUnitType("omega"){{
-            localizedName = "ω";
+            localizedName = "OMEGA";
 
             coreUnitDock = true;
             controller = u -> new BuilderAI(true, coreFleeRange);
