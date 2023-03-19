@@ -6,6 +6,7 @@ import mindustry.content.Items;
 import mindustry.content.Liquids;
 import mindustry.entities.Units;
 import mindustry.entities.bullet.BasicBulletType;
+import mindustry.entities.bullet.BulletType;
 import mindustry.entities.bullet.MassDriverBolt;
 import mindustry.entities.bullet.PointBulletType;
 import mindustry.entities.effect.MultiEffect;
@@ -30,6 +31,7 @@ import mindustry.world.blocks.defense.turrets.ItemTurret;
 import mindustry.world.blocks.distribution.*;
 import mindustry.world.blocks.environment.Floor;
 import mindustry.world.blocks.environment.OreBlock;
+import mindustry.world.blocks.environment.StaticWall;
 import mindustry.world.blocks.liquid.*;
 import mindustry.world.blocks.production.*;
 import mindustry.world.blocks.storage.CoreBlock;
@@ -39,28 +41,31 @@ import mindustry.world.blocks.units.UnitCargoLoader;
 import mindustry.world.blocks.units.UnitCargoUnloadPoint;
 import mindustry.world.draw.*;
 import mindustry.world.meta.BlockGroup;
+import mindustry.world.meta.Env;
+
 import static mindustry.type.ItemStack.with;
 
 public class ARBlocks {
     public static Block
             //env
             ancientMetalFloor, ancientMetalFloorHeat, ancientFloor, ancientFloorHeat,
+            ancientMetalUnit, ancientMetalUnitLarge,
 
             //ore
             ironOre, ancientScrapOre
     ;
     public static Block
             //crafting
-            steelSmelter,
+            steelSmelter, //nitrogenCompressor,
             ancientMetalSmelter, ancientAlloyArcSmelter,
             conductorSmelter, conductorLiquidMixer, cubeGenerator,
 
             //wall
             ironWall, steelWall,
-            ancientWall, ancientWalLarge, ancientDefenceWall, ancientDefenceWallLarge, ancientDefenceDoor/*,
+            ancientWall, ancientWalLarge, ancientDefenceWall, ancientDefenceWallLarge, ancientDefenceDoor,
 
             //defence
-            ancientMendProjector, ancientMendDome, ancientBoostProjector, ancientOverdriveDome, ancientRadar*/,
+            //ancientMendProjector, ancientMendDome, ancientBoostProjector, ancientOverdriveDome, ancientShieldProjector, ancientShieldDome, ancientRadar,
 
             //distribution
             ancientConveyor, ancientJunction, ancientItemBridge, ancientSorter, ancientInvertedSorter, ancientRouter, ancientDisruptor, ancientOverflowGate, ancientUnderflowGate,
@@ -83,7 +88,7 @@ public class ARBlocks {
             ancientContainer, ancientVault, ancientUnloader,
 
             //turret
-            ancientDuo, ancientRailgun, ancientRailcannon, eyeOfTurret/*,
+            ancientDuo/*, ancientAntiAir, ancientMissileSilo*/, ancientMultiMissileSilo, ancientRaidMissileSilo, ancientRailgun, ancientRailcannon, eyeOfTurret/*,
 
             //unit
             unitGenerator, ancientUnitGenerator,
@@ -96,6 +101,7 @@ public class ARBlocks {
     public static void load(){
         int wallHealthMultiplier = 6;
         //region env
+        ///floor
         ancientMetalFloor = new Floor("ancient-metal-floor");
         ancientMetalFloorHeat = new Floor("ancient-metal-floor-heat"){{
             lightRadius = 40f;
@@ -105,6 +111,11 @@ public class ARBlocks {
             lightRadius = 40f;
         }};
 
+        ///wall
+        ancientMetalUnit = new StaticWall("ancient-metal-unit");
+        ancientMetalUnitLarge = new StaticWall("ancient-metal-unit-large");
+
+        ///ore
         ironOre = new OreBlock("iron-ore", ARItems.iron){{
             oreDefault = true;
             oreThreshold = 0.815f;
@@ -274,6 +285,8 @@ public class ARBlocks {
             speed = 26;
             capacity = 10;
 
+            ((Conveyor)ancientConveyor).junctionReplacement = this;
+
             requirements(Category.distribution, with(ARItems.aMetal, 2));
         }};
 
@@ -285,6 +298,8 @@ public class ARBlocks {
             range = 5;
             arrowSpacing = 6f;
             bufferCapacity = 20;
+
+            ((Conveyor)ancientConveyor).bridgeReplacement = this;
 
             requirements(Category.distribution, with(ARItems.aMetal, 12));
         }};
@@ -340,7 +355,7 @@ public class ARBlocks {
             size = 1;
             health = 500;
 
-            speed = 5.5f;
+            speed = 3f;
 
             requirements(Category.distribution, with(ARItems.aAlloy, 5));
         }};
@@ -349,7 +364,7 @@ public class ARBlocks {
             size = 1;
             health = 500;
 
-            speed = 5.5f;
+            speed = 3f;
 
             regionRotated1 = 1;
             solid = false;
@@ -361,7 +376,7 @@ public class ARBlocks {
             size = 1;
             health = 500;
 
-            speed = 5.5f;
+            speed = 3f;
 
             solid = false;
 
@@ -372,7 +387,7 @@ public class ARBlocks {
             size = 1;
             health = 500;
 
-            speed = 5.5f;
+            speed = 3f;
 
             invert = true;
             solid = false;
@@ -383,7 +398,9 @@ public class ARBlocks {
             size = 1;
             health = 500;
 
-            speed = 5.5f;
+            speed = 3f;
+
+            ((Conveyor)ancientDuct).bridgeReplacement = this;
 
             requirements(Category.distribution, with(ARItems.aAlloy, 20));
         }};
@@ -392,7 +409,7 @@ public class ARBlocks {
             size = 1;
             health = 500;
 
-            speed = 5.5f;
+            speed = 3f;
 
             solid = false;
             underBullets = true;
@@ -634,7 +651,7 @@ public class ARBlocks {
             size = 5;
             health = 5000;
 
-            drillTime = 60f * 10f;
+            drillTime = 60f * 5f;
             hasPower = false;
             tier = 15;
             drillEffect = new MultiEffect(
@@ -659,7 +676,7 @@ public class ARBlocks {
         //endregion
         //storage
 
-        ancientCore = new CoreBlock("ancient-core"){{
+        ancientCore = new CoreBlock("ancient-core-base"){{
             size = 4;
             health = 15200;
             armor = 20;
@@ -670,6 +687,7 @@ public class ARBlocks {
             itemCapacity = 10000;
 
             incinerateNonBuildable = true;
+            alwaysUnlocked = true;
 
             requirements(Category.effect, with(ARItems.aMetal, 2000));
         }};
@@ -796,6 +814,62 @@ public class ARBlocks {
             requirements(Category.turret, with(ARItems.aMetal, 15));
         }};
 
+        ancientMultiMissileSilo = new ItemTurret("ancient-multi-missile-silo"){{
+            size = 7;
+            health = 100;
+            armor = 150;
+
+            minRange = 80f;
+
+            recoil = 0.5f;
+
+            fogRadiusMultiuplier = 0.4f;
+            coolantMultiplier = 6f;
+            shootSound = Sounds.missileLaunch;
+
+            minWarmup = 0.94f;
+            shootWarmupSpeed = 0.03f;
+            targetAir = false;
+            targetUnderBlocks = false;
+
+            shake = 6f;
+            ammoPerShot = 20;
+            maxAmmo = 40;
+            shootY = -1;
+            outlineColor = Pal.darkOutline;
+            envEnabled |= Env.space;
+            reload = 600f;
+            range = 1350;
+            shootCone = 1f;
+            rotateSpeed = 0.9f;
+            limitRange();
+
+            reload = 60f * 3.25f;
+            cooldownTime = reload;
+            rotateSpeed = 1.75f;
+            shootEffect = Fx.shootSmokeMissile;
+            smokeEffect = Fx.shootSmokeMissile;
+
+            ammo(
+                    ARItems.conductor, new BasicBulletType(0f, 1){{
+                        shootEffect = Fx.shootBig;
+                        smokeEffect = Fx.shootSmokeMissile;
+                        ammoMultiplier = 1f;
+
+                        spawnUnit = ARBullets.ancientMissile;
+                    }}
+            );
+
+            shoot = new ShootAlternate(){{
+                shotDelay = 6f;
+                shots = 4;
+                barrels = 4;
+                spread = 10f;
+            }};
+
+            requirements(Category.turret, with(ARItems.aMetal, 350, ARItems.conductor, 50));
+        }};
+
         ancientRailgun = new ItemTurret("ancient-railgun"){{
             size = 5;
             health = 12500;
@@ -881,7 +955,7 @@ public class ARBlocks {
 
             shootY = 17.5f;
 
-            reload = 120f;
+            reload = 350f;
             recoil = 5f;
             inaccuracy = 0f;
             minWarmup = 0.96f;
@@ -910,7 +984,7 @@ public class ARBlocks {
             );
 
             var haloProgress = DrawPart.PartProgress.warmup;
-            Color haloColor = Color.valueOf("919100");
+            Color haloColor = ARColor.ancientYellow;
             float haloY = -40f, haloRotSpeed = 4f;
 
             drawer = new DrawTurret(){{
@@ -1050,6 +1124,169 @@ public class ARBlocks {
             };
 
             requirements(Category.turret, with(ARItems.aAlloy, 392, ARItems.conductor, 128, ARItems.cube, 64));
+        }};
+
+        ancientRaidMissileSilo = new ItemTurret("ancient-raid-missile-silo"){{
+            size = 16;
+            health = 128000;
+            armor = 15000;
+        }};
+
+        eyeOfTurret = new ItemTurret("eyeOfTurret"){{
+            size = 16;
+            health = 128000;
+            armor = 15000;
+
+            itemCapacity = 150;
+
+            shootCone = 20f;
+            range = 1600F;
+            shootY = 15f;
+            reload = 1200f;
+            recoil = 5f;
+            inaccuracy = 15f;
+            minWarmup = 0.96f;
+            shootWarmupSpeed = 0.03f;
+            cooldownTime = reload;
+            rotateSpeed = 0.04f;
+            moveWhileCharging = false;
+            ammoPerShot = 15;
+
+            outlineRadius = 7;
+
+            consumeLiquid(ARLiquids.conductorLiquid, 4f);
+
+            shootEffect = ARFx.instShoot;
+            smokeEffect = Fx.smokeCloud;
+
+            shootSound = Sounds.laserblast;
+            chargeSound = Sounds.lasercharge2;
+            ammoUseEffect = Fx.none;
+
+            shoot = new ShootPattern(){{
+                firstShotDelay = 120f;
+                shots = 20;
+                shotDelay = 5f;
+            }};
+
+            ammo(
+                    ARItems.conductor, new BulletType(){{
+                        spawnUnit = ARBullets.ancientRaidMissile;
+                        shoot = new ShootPattern(){{
+                            shots = 5;
+                            shotDelay = 10f;
+                        }};
+                    }},
+                    ARItems.cube, ARBullets.eye
+            );
+
+            var haloProgress = DrawPart.PartProgress.warmup.delay(0.05f);
+            Color haloColor = ARColor.ancientYellow;
+            float haloY = -14.75f, haloX = 38f, haloRotSpeed = 4.5f;
+
+            drawer = new DrawTurret(){{
+                parts.addAll(
+                        //charger LR
+                        new ShapePart(){{
+                            mirror = true;
+                            progress = PartProgress.warmup.delay(0.05f);
+                            color = haloColor;
+                            circle = true;
+                            hollow = true;
+                            stroke = 0f;
+                            strokeTo = 2f;
+                            radius = 6f;
+                            layer = Layer.effect;
+                            x = haloX;
+                            y = haloY;
+                            rotateSpeed = haloRotSpeed;
+                        }},
+                        new ShapePart(){{
+                            mirror = true;
+                            progress = PartProgress.warmup.delay(0.05f);
+                            color = haloColor;
+                            circle = true;
+                            hollow = true;
+                            stroke = 0f;
+                            strokeTo = 1.6f;
+                            radius = 2f;
+                            layer = Layer.effect;
+                            x = haloX;
+                            y = haloY;
+                            rotateSpeed = haloRotSpeed;
+                        }},
+                        new HaloPart(){{
+                            mirror = true;
+                            progress = haloProgress;
+                            color = haloColor;
+                            layer = Layer.effect;
+                            x = haloX;
+                            y = haloY;
+                            haloRotateSpeed = -haloRotSpeed;
+
+                            shapes = 4;
+                            triLength = 0f;
+                            triLengthTo = 5f;
+                            haloRotation = 45f;
+                            haloRadius = 10f;
+                            tri = true;
+                            radius = 7f;
+                        }},
+                        new HaloPart(){{
+                            mirror = true;
+                            progress = haloProgress;
+                            color = haloColor;
+                            layer = Layer.effect;
+                            x = haloX;
+                            y = haloY;
+                            haloRotateSpeed = -haloRotSpeed;
+
+                            shapes = 4;
+                            shapeRotation = 180f;
+                            triLength = 0f;
+                            triLengthTo = 2f;
+                            haloRotation = 45f;
+                            haloRadius = 10f;
+                            tri = true;
+                            radius = 7f;
+                        }},
+                        new HaloPart(){{
+                            mirror = true;
+                            progress = haloProgress;
+                            color = haloColor;
+                            layer = Layer.effect;
+                            x = haloX;
+                            y = haloY;
+                            haloRotateSpeed = haloRotSpeed;
+
+                            shapes = 4;
+                            triLength = 0f;
+                            triLengthTo = 3f;
+                            haloRotation = 45f;
+                            haloRadius = 2.5f;
+                            tri = true;
+                            radius = 4f;
+                        }},
+                        new RegionPart("-joint"),
+                        new RegionPart("-hatchBack"){{
+                            outline = false;
+                            moveY = -12f;
+                            progress = PartProgress.warmup;
+                        }},
+                        new RegionPart("-hatchFront"){{
+                            outline = false;
+                            moveY = 12f;
+                            progress = PartProgress.warmup;
+                        }},
+                        new RegionPart("-side"){{
+                            mirror = true;
+                        }},
+                        new RegionPart("-shooter"),
+                        new RegionPart("-mid")
+                );
+            }};
+
+            requirements(Category.turret, with(ARItems.aAlloy, 8000, ARItems.conductor, 600, ARItems.cube, 400));
         }};
 
         //endregion

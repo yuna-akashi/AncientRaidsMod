@@ -6,6 +6,8 @@ import arc.util.*;
 import mindustry.game.EventType.*;
 import mindustry.mod.*;
 import mindustry.ui.dialogs.*;
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
 
 public class AncientRaids extends Mod{
 //    public static final String MOD_RELEASES = "https://github.com/Yunatexya/AncientRaidsMod/releases";
@@ -14,7 +16,8 @@ public class AncientRaids extends Mod{
     public static final String MOD_NAME = "ancient-raids";
 
     //public static Mods.LoadedMod MOD;
-    public static String name(String name){
+    @Contract(pure = true)
+    public static @NotNull String name(String name){
         return MOD_NAME + "-" + name;
     }
 
@@ -27,7 +30,6 @@ public class AncientRaids extends Mod{
             Time.runTask(10f, () -> {
                 BaseDialog dialog = new BaseDialog("Attention");
                 dialog.cont.add("Ancient raids Mod loaded.").row();
-                //mod sprites are prefixed with the mod name (this mod is called 'example-java-mod' in its config)
                 dialog.cont.image(Core.atlas.find("ancient-raids-icon-2")).pad(20f).row();
                 dialog.cont.button("Close", dialog::hide).size(100f, 50f);
                 dialog.show();
@@ -40,14 +42,15 @@ public class AncientRaids extends Mod{
         Log.info("Loading content.");
 
         {
+            ARFx.load();
             ARTeams.load();
             ARItems.load();
             ARLiquids.load();
             ARBullets.load();
             ARUnits.load();
             ARBlocks.load();
+            //ARSectorPresets.load();
             ARPlanets.load();
-            // ARSectorPresets.load();
             ARTechTree.load();
         }
     }

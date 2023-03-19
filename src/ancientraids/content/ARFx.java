@@ -14,8 +14,10 @@ import mindustry.entities.Effect;
 import mindustry.graphics.Drawf;
 
 import static arc.graphics.g2d.Draw.color;
+import static arc.graphics.g2d.Lines.lineAngle;
 import static arc.graphics.g2d.Lines.stroke;
 import static arc.math.Angles.randLenVectors;
+import static arc.math.Mathf.rand;
 import static mindustry.Vars.tilesize;
 
 public class ARFx {
@@ -142,8 +144,28 @@ public class ARFx {
 
             Lines.stroke(railF * 2f);
             for(int i : Mathf.signs){
-                Lines.lineAngle(e.x + Tmp.v1.x * i, e.y + Tmp.v1.y * i, e.rotation, length * (0.75f + railF / 4f) * Mathf.curve(e.fout(Interp.pow5Out), 0f, 0.1f));
+                lineAngle(e.x + Tmp.v1.x * i, e.y + Tmp.v1.y * i, e.rotation, length * (0.75f + railF / 4f) * Mathf.curve(e.fout(Interp.pow5Out), 0f, 0.1f));
             }
         }).followParent(true);
+    }
+
+    public static Effect hitSparkLarge, eyeTrail;
+
+    public static void load(){
+        hitSparkLarge = new Effect(40, e -> {
+            color(e.color, Color.white, e.fout() * 0.3f);
+            stroke(e.fout() * 1.6f);
+
+            rand.setSeed(e.id);
+            randLenVectors(e.id, 18, e.finpow() * 27f, (x, y) -> {
+                float ang = Mathf.angle(x, y);
+                lineAngle(e.x + x, e.y + y, ang, e.fout() * rand.random(4, 8) + 2f);
+            });
+        });
+
+        eyeTrail = new Effect(50.0F, e -> {
+            Draw.color(e.color, Color.white, e.fout() * 0.35f);
+            randLenVectors(e.id, 2, tilesize * e.fin(), (x, y) -> Fill.circle(e.x + x, e.y + y, e.rotation * e.fout()));
+        });
     }
 }
