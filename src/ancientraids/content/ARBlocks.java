@@ -56,7 +56,7 @@ public class ARBlocks {
     ;
     public static Block
             //crafting
-            steelSmelter, //nitrogenCompressor,
+            steelSmelter,
             ancientMetalSmelter, ancientAlloyArcSmelter,
             conductorSmelter, conductorLiquidMixer, cubeGenerator,
 
@@ -69,7 +69,7 @@ public class ARBlocks {
 
             //distribution
             ancientConveyor, ancientJunction, ancientItemBridge, ancientSorter, ancientInvertedSorter, ancientRouter, ancientDisruptor, ancientOverflowGate, ancientUnderflowGate,
-            ancientDuct, ancientDuctRouter, ancientOverflowDuct, ancientUnderflowDuct, ancientDuctBridge, ancientDuctUnloader, ancientStackConveyor,
+            ancientDuct, ancientArmorDuct, ancientDuctRouter, ancientOverflowDuct, ancientUnderflowDuct, ancientDuctBridge, ancientPhaseDuct, ancientDuctUnloader, ancientStackConveyor,
             ancientMassDriver, ancientItemTransportCannon, ancientCargoLoader, ancientCargoUnloadPoint,
 
             //liquid
@@ -353,11 +353,20 @@ public class ARBlocks {
         //ducts
         ancientDuct = new Duct("ancient-duct"){{
             size = 1;
-            health = 500;
+            health = 200;
 
             speed = 3f;
 
-            requirements(Category.distribution, with(ARItems.aAlloy, 5));
+            requirements(Category.distribution, with(ARItems.aMetal, 5));
+        }};
+
+        ancientArmorDuct = new Duct("ancient-armor-duct"){{
+            size = 1;
+            health = 500;
+
+            speed = 2.5f;
+
+            requirements(Category.distribution, with(ARItems.aAlloy, 10));
         }};
 
         ancientDuctRouter = new DuctRouter("ancient-duct-router"){{
@@ -369,7 +378,7 @@ public class ARBlocks {
             regionRotated1 = 1;
             solid = false;
 
-            requirements(Category.distribution, with(ARItems.aAlloy, 10));
+            requirements(Category.distribution, with(ARItems.aMetal, 10));
         }};
 
         ancientOverflowDuct = new OverflowDuct("ancient-overflow-duct"){{
@@ -396,11 +405,19 @@ public class ARBlocks {
         }};
         ancientDuctBridge = new DuctBridge("ancient-duct-bridge"){{
             size = 1;
-            health = 500;
+            health = 200;
 
             speed = 3f;
 
-            ((Conveyor)ancientDuct).bridgeReplacement = this;
+            requirements(Category.distribution, with(ARItems.aMetal, 20));
+        }};
+
+        ancientPhaseDuct = new ItemBridge("ancient-phase-duct"){{
+            size = 1;
+            health = 500;
+
+            hasPower = false;
+            range = 40;
 
             requirements(Category.distribution, with(ARItems.aAlloy, 20));
         }};
