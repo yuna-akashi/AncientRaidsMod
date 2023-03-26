@@ -42,8 +42,8 @@ public class AncientRaids extends Mod{
         Log.info("Loading content.");
 
         {
+            //Ancient Technology and other
             ARFx.load();
-            ARTeams.load();
             ARItems.load();
             ARLiquids.load();
             ARBullets.load();
@@ -52,6 +52,12 @@ public class AncientRaids extends Mod{
             //ARSectorPresets.load();
             ARPlanets.load();
             ARTechTree.load();
+
+            //Momona
+            MMNItems.load();
+            MMNUnits.load();
+            MMNBlocks.load();
+            MOMONATechTree.load();
         }
     }
 

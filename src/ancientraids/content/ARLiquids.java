@@ -21,10 +21,10 @@ public class ARLiquids {
             gasColor = Color.grays(0.9f);
         }};
 
-        efficiencyLiquid = new Liquid("efficiency-liquid"){{
+        efficiencyLiquid = new Liquid("efficiency-liquid", ARColor.ancientYellow){{
             heatCapacity = 1111f;
             boilPoint = 0.5f;
-            gasColor = Color.blue;
+            gasColor = ARColor.ancientYellow;
 
             temperature = -100f;
         }};

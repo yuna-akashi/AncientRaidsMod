@@ -5,7 +5,7 @@ import static mindustry.content.TechTree.*;
 
 public class MOMONATechTree {
     public static void load(){
-        nodeRoot("momona-tech", coreBase, () -> {
+        ARPlanets.atramace.techTree = nodeRoot("momona-tech", coreBase, () -> {
 
             node(coreCluster, () -> {
                 node(coreMomona);

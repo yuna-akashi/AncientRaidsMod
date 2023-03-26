@@ -1,6 +1,7 @@
 package ancientraids.content;
 
 import arc.graphics.Color;
+import arc.struct.Seq;
 import mindustry.content.Fx;
 import mindustry.content.Items;
 import mindustry.content.Liquids;
@@ -48,7 +49,7 @@ import static mindustry.type.ItemStack.with;
 public class ARBlocks {
     public static Block
             //env
-            ancientMetalFloor, ancientMetalFloorHeat, ancientFloor, ancientFloorHeat,
+            ancientFloor, ancientFloorHeat,
             ancientMetalUnit, ancientMetalUnitLarge,
 
             //ore
@@ -57,8 +58,8 @@ public class ARBlocks {
     public static Block
             //crafting
             steelSmelter,
-            ancientMetalSmelter, ancientAlloyArcSmelter,
-            conductorSmelter, conductorLiquidMixer, cubeGenerator,
+            ancientMetalSmelter, ancientKiln, conductorSmelter, ancientAlloySmelter,
+            conductorLiquidMixer, ammoMaker, cubeGenerator, ancientMetalARCSmelter, ancientAlloyARCSmelter,
 
             //wall
             ironWall, steelWall,
@@ -68,8 +69,8 @@ public class ARBlocks {
             //ancientMendProjector, ancientMendDome, ancientBoostProjector, ancientOverdriveDome, ancientShieldProjector, ancientShieldDome, ancientRadar,
 
             //distribution
-            ancientConveyor, ancientJunction, ancientItemBridge, ancientSorter, ancientInvertedSorter, ancientRouter, ancientDisruptor, ancientOverflowGate, ancientUnderflowGate,
-            ancientDuct, ancientArmorDuct, ancientDuctRouter, ancientOverflowDuct, ancientUnderflowDuct, ancientDuctBridge, ancientPhaseDuct, ancientDuctUnloader, ancientStackConveyor,
+            ancientDuct, ancientArmorDuct, ancientDuctRouter, ancientDuctDisruptor, ancientOverflowDuct, ancientUnderflowDuct, ancientDuctBridge, ancientPhaseDuct, ancientDuctUnloader,
+            ancientStackConveyor, ancientStackRouter,
             ancientMassDriver, ancientItemTransportCannon, ancientCargoLoader, ancientCargoUnloadPoint,
 
             //liquid
@@ -88,24 +89,23 @@ public class ARBlocks {
             ancientContainer, ancientVault, ancientUnloader,
 
             //turret
-            ancientDuo/*, ancientAntiAir, ancientMissileSilo*/, ancientMultiMissileSilo, ancientRaidMissileSilo, ancientRailgun, ancientRailcannon, eyeOfTurret/*,
+            ancientDuo/*, ancientAntiAir, ancientMissileSilo*/, ancientMultiMissileSilo, ancientRaidMissileSilo, ancientRailgun, ancientRailcannon, eyeOfTurret,
 
             //unit
-            unitGenerator, ancientUnitGenerator,
-            regenerationMachine, additiveRegenerationMachine, multipleRegenerationMachine, tetrativeRegenerationMachine,
-            ancientRegenerationMachine, ancientRebornMachine,
-            t1UpgradeModule, t2UpgradeModule, t3UpgradeModule, t4UpgradeModule, t5UpgradeModule,
-            ancientRepairTower*/
+            //leg
+            legGenerator, legRegenerationMachine, LegRegenerationAssembler,
+            //mech
+            mechGenerator, mechRegenerationMachine, mechRegenerationAssembler,
+            //air
+            airGenerator, airRegenerationMachine, airRegenerationAssembler,
+            //upGrader
+            primeRegenerationMachine, upGradeModule
     ;
 
     public static void load(){
         int wallHealthMultiplier = 6;
         //region env
         ///floor
-        ancientMetalFloor = new Floor("ancient-metal-floor");
-        ancientMetalFloorHeat = new Floor("ancient-metal-floor-heat"){{
-            lightRadius = 40f;
-        }};
         ancientFloor = new Floor("ancient-floor");
         ancientFloorHeat = new Floor("ancient-floor-heat"){{
             lightRadius = 40f;
@@ -159,19 +159,18 @@ public class ARBlocks {
             requirements(Category.crafting, with(ARItems.aScrap, 120));
         }};
 
-        ancientAlloyArcSmelter = new GenericCrafter("ancient-alloy-arc-smelter"){{
-            size = 5;
+        ancientKiln = new GenericCrafter("ancient-kiln"){{
+            size = 2;
 
-            consumeLiquid(ARLiquids.conductorLiquid, 1.2f);
             consumeItems(with(ARItems.aScrap, 4));
-            outputItem = new ItemStack(ARItems.aAlloy, 1);
-            craftTime = 1.33f * 60f;
+            outputItem = new ItemStack(ARItems.aGlass, 1);
+            craftTime = 0.5f * 60f;
 
             drawer = new DrawMulti(
-                    new DrawRegion("-bottom"), new DrawLiquidTile(), new DrawArcSmelt(), new DrawDefault()
+                    new DrawDefault(), new DrawFlame()
             );
 
-            requirements(Category.crafting, with(ARItems.aMetal, 840, ARItems.conductor, 50));
+            requirements(Category.crafting, with(Items.graphite, 30, ARItems.aScrap, 60, ARItems.aMetal, 30));
         }};
 
         conductorSmelter = new GenericCrafter("conductor-smelter"){{
@@ -203,32 +202,85 @@ public class ARBlocks {
             requirements(Category.crafting, with(ARItems.aMetal, 32, ARItems.aGlass , 20));
         }};
 
-        cubeGenerator = new GenericCrafter("cube-generator"){{
-            size = 3;
-            health = 1800;
+        ammoMaker = new GenericCrafter("ammo-maker"){{
+            size = 2;
+            health = 800;
 
-            consumeItems(with(ARItems.aMetal, 2));
-            outputItem = new ItemStack(ARItems.cube, 1);
-            craftTime = 1.2f * 60f;
+            consumeItems(with(ARItems.aMetal, 4));
+            outputItem = new ItemStack(ARItems.aAmmo, 1);
+            craftTime = 1.33f * 60f;
+
             drawer = new DrawMulti(
                     new DrawDefault()
             );
 
-            requirements(Category.crafting, with(ARItems.aMetal, 20));
+            requirements(Category.crafting, with(ARItems.aMetal, 80));
+        }};
+
+        ancientAlloySmelter = new GenericCrafter("ancient-alloy-smelter"){{
+            size = 3;
+
+            consumeLiquid(ARLiquids.conductorLiquid, 1.2f);
+            consumeItems(with(ARItems.aScrap, 4));
+            outputItem = new ItemStack(ARItems.aAlloy, 1);
+            craftTime = 1.33f * 60f;
+
+            drawer = new DrawMulti(
+                    new DrawDefault(), new DrawFlame()
+            );
+
+            requirements(Category.crafting, with(ARItems.aMetal, 840, ARItems.conductor, 50));
+        }};
+
+        cubeGenerator = new GenericCrafter("cube-generator"){{
+            size = 3;
+            health = 1800;
+
+            consumeLiquid(ARLiquids.conductorLiquid, 2f);
+            consumeItems(with(ARItems. aAlloy, 1, ARItems.conductor, 2));
+            outputItem = new ItemStack(ARItems.cube, 1);
+            craftTime = 2f * 60f;
+            drawer = new DrawMulti(
+                    new DrawDefault()
+            );
+
+            requirements(Category.crafting, with(ARItems.aAlloy, 200));
+        }};
+
+        ancientMetalARCSmelter = new GenericCrafter("ancient-metal-arc-smelter"){{
+            size = 5;
+            health = 4500;
+
+            outputItem = new ItemStack(ARItems.aMetal, 1);
+            craftTime = 1.33f * 60f;
+        }};
+
+        ancientAlloyARCSmelter = new GenericCrafter("ancient-alloy-arc-smelter"){{
+            size = 5;
+            health = 4500;
+
+            consumeLiquid(ARLiquids.conductorLiquid, 1.2f);
+            consumeItems(with(ARItems.aScrap, 4));
+            outputItem = new ItemStack(ARItems.aAlloy, 1);
+            craftTime = 1.33f * 60f;
+
+            drawer = new DrawMulti(
+                    new DrawRegion("-bottom"), new DrawLiquidTile(), new DrawArcSmelt(), new DrawDefault()
+            );
         }};
 
         //endregion
         //region wall
         ironWall = new Wall("iron-wall"){{
             size = 1;
-            health = 80 * wallHealthMultiplier;
+            health = 80 * 4;
 
             requirements(Category.defense, with(ARItems.iron, 8));
         }};
 
         steelWall = new Wall("steel-wall"){{
             size = 1;
-            health = 100 * wallHealthMultiplier;
+            health = 100 * 4;
 
             requirements(Category.defense, with(ARItems.steel, 8));
         }};
@@ -269,86 +321,7 @@ public class ARBlocks {
 
         //endregion
         //distribution
-        ancientConveyor = new Conveyor("ancient-conveyor"){{
-            size = 1;
-            health = 200;
 
-            speed = 0.12f;
-
-            requirements(Category.distribution, with(ARItems.aMetal, 5));
-        }};
-
-        ancientJunction = new Junction("ancient-junction"){{
-            size = 1;
-            health = 200;
-
-            speed = 26;
-            capacity = 10;
-
-            ((Conveyor)ancientConveyor).junctionReplacement = this;
-
-            requirements(Category.distribution, with(ARItems.aMetal, 2));
-        }};
-
-        ancientItemBridge = new BufferedItemBridge("ancient-bridge-conveyor"){{
-            size = 1;
-            health = 200;
-
-            speed = 74f;
-            range = 5;
-            arrowSpacing = 6f;
-            bufferCapacity = 20;
-
-            ((Conveyor)ancientConveyor).bridgeReplacement = this;
-
-            requirements(Category.distribution, with(ARItems.aMetal, 12));
-        }};
-
-        ancientSorter = new Sorter("ancient-sorter"){{
-            size = 1;
-            health = 200;
-
-            requirements(Category.distribution, with(ARItems.aMetal, 4));
-        }};
-
-        ancientInvertedSorter = new Sorter("ancient-inverted-sorter"){{
-            size = 1;
-            health = 200;
-
-            invert = true;
-
-            requirements(Category.distribution, with(ARItems.aMetal, 4));
-        }};
-
-        ancientRouter = new Router("ancient-router"){{
-            size = 1;
-            health = 200;
-
-            requirements(Category.distribution, with(ARItems.aMetal, 3));
-        }};
-
-        ancientDisruptor = new Router("ancient-disruptor"){{
-            size = 2;
-            health = 800;
-
-            requirements(Category.distribution, with(ARItems.aMetal, 10));
-        }};
-
-        ancientOverflowGate = new OverflowGate("ancient-overflow-gate"){{
-            size = 1;
-            health = 200;
-
-            requirements(Category.distribution, with(ARItems.aMetal, 6));
-        }};
-
-        ancientUnderflowGate = new OverflowGate("ancient-underflow-gate"){{
-            size = 1;
-            health = 200;
-
-            invert = true;
-
-            requirements(Category.distribution, with(ARItems.aMetal, 6));
-        }};
 
         //ducts
         ancientDuct = new Duct("ancient-duct"){{
@@ -357,7 +330,9 @@ public class ARBlocks {
 
             speed = 3f;
 
-            requirements(Category.distribution, with(ARItems.aMetal, 5));
+            researchCost = with(ARItems.aMetal, 5);
+
+            requirements(Category.distribution, with(ARItems.aMetal, 1));
         }};
 
         ancientArmorDuct = new Duct("ancient-armor-duct"){{
@@ -366,7 +341,9 @@ public class ARBlocks {
 
             speed = 2.5f;
 
-            requirements(Category.distribution, with(ARItems.aAlloy, 10));
+            researchCost = with(ARItems.aMetal, 300, ARItems.aAlloy, 100);
+
+            requirements(Category.distribution, with(ARItems.aMetal, 2, ARItems.aAlloy, 1));
         }};
 
         ancientDuctRouter = new DuctRouter("ancient-duct-router"){{
@@ -378,7 +355,18 @@ public class ARBlocks {
             regionRotated1 = 1;
             solid = false;
 
+            researchCost = with(ARItems.aMetal, 30);
+
             requirements(Category.distribution, with(ARItems.aMetal, 10));
+        }};
+
+        ancientDuctDisruptor = new Router("ancient-duct-disruptor"){{
+            size = 2;
+            health = 2000;
+
+            researchCost = with(ARItems.aAlloy, 60);
+
+            requirements(Category.distribution, with(ARItems.aAlloy, 20));
         }};
 
         ancientOverflowDuct = new OverflowDuct("ancient-overflow-duct"){{
@@ -388,6 +376,8 @@ public class ARBlocks {
             speed = 3f;
 
             solid = false;
+
+            researchCostMultiplier = 1.5f;
 
             requirements(Category.distribution, with(Items.graphite, 8, ARItems.aAlloy, 8));
         }};
@@ -401,6 +391,8 @@ public class ARBlocks {
             invert = true;
             solid = false;
 
+            researchCostMultiplier = 1.5f;
+
             requirements(Category.distribution, with(Items.graphite, 8, ARItems.aAlloy, 8));
         }};
         ancientDuctBridge = new DuctBridge("ancient-duct-bridge"){{
@@ -408,6 +400,9 @@ public class ARBlocks {
             health = 200;
 
             speed = 3f;
+
+            buildCostMultiplier = 2f;
+            researchCostMultiplier = 0.3f;
 
             requirements(Category.distribution, with(ARItems.aMetal, 20));
         }};
@@ -445,7 +440,26 @@ public class ARBlocks {
 
             itemCapacity = 20;
 
-            requirements(Category.distribution, with(ARItems.aMetal, 1, ARItems.aAlloy, 1));
+            outputRouter = false;
+            underBullets = true;
+            baseEfficiency = 1f;
+
+            researchCost = with(ARItems.aMetal, 30, ARItems.aAlloy, 80);
+
+            requirements(Category.distribution, with(ARItems.conductor, 30, ARItems.aAlloy, 80));
+        }};
+
+        ancientStackRouter = new StackRouter("ancient-stack-router"){{
+            size = 1;
+            health = 500;
+
+            speed = 6f;
+
+            baseEfficiency = 1f;
+            underBullets = true;
+            solid = false;
+
+            requirements(Category.distribution, with(ARItems.conductor, 5, ARItems.aAlloy, 1));
         }};
 
         ancientMassDriver = new MassDriver("ancient-mass-driver"){{
@@ -747,7 +761,7 @@ public class ARBlocks {
             unitType = ARUnits.theta;
             unitCapModifier = 50;
 
-             itemCapacity = 25000;
+            itemCapacity = 25000;
 
             incinerateNonBuildable = true;
 

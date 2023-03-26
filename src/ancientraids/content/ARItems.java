@@ -2,6 +2,7 @@ package ancientraids.content;
 
 import arc.graphics.Color;
 import arc.struct.Seq;
+import mindustry.content.Items;
 import mindustry.type.Item;
 
 public class ARItems {
@@ -40,7 +41,8 @@ public class ARItems {
         matter = new Item("matter", Color.gray);
 
         atramaceItems.addAll(
-                iron, steel, aScrap, aMetal, aGlass, aAlloy, conductor, cube, aAmmo, matter
+                iron, steel, aScrap, aMetal, aGlass, aAlloy, conductor, cube, aAmmo, matter,
+                Items.graphite, Items.sand, Items.silicon
         );
     }
 }

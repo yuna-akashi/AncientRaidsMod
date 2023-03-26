@@ -5,37 +5,32 @@ import static mindustry.content.TechTree.*;
 public class ARTechTree {
 
     public static void load(){
-        ARPlanets.atrantis.techTree = nodeRoot("ancient-raids", ARBlocks.ironWall, () -> {
-            node(ARBlocks.steelWall);
-        });
+        ARPlanets.atramoon.techTree = nodeRoot("ancient-raids-atramace", ARBlocks.ancientCore, () -> {
 
-        nodeRoot("ancient-raids-atramace", ARBlocks.ancientCore, () -> {
-            node(ARBlocks.ancientConveyor, () -> {
-                node(ARBlocks.ancientJunction, () -> {
-                    node(ARBlocks.ancientRouter, () -> {
-                        //node(ARBlocks.);
-                        node(ARBlocks.ancientDisruptor);
-                        node(ARBlocks.ancientSorter, () -> {
-                            node(ARBlocks.ancientInvertedSorter);
-                            node(ARBlocks.ancientOverflowGate, () -> {
-                                node(ARBlocks.ancientUnderflowGate);
-                            });
+            //transport
+            node(ARBlocks.ancientDuct, () -> {
+                node(ARBlocks.ancientDuctRouter, () -> {
+                    node(ARBlocks.ancientDuctBridge, () -> {
+                        node(ARBlocks.ancientArmorDuct, () -> {
+                            node(ARBlocks.ancientPhaseDuct);
+                            node(ARBlocks.ancientStackConveyor);
                         });
+                        node(ARBlocks.ancientCargoLoader, () -> {
+                            node(ARBlocks.ancientCargoUnloadPoint);
+                        });
+                    });
+                    node(ARBlocks.ancientOverflowDuct, () -> {
+                        node(ARBlocks.ancientUnderflowDuct);
                         node(ARBlocks.ancientContainer, () -> {
-                            node(ARBlocks.ancientUnloader);
+                            node(ARBlocks.ancientDuctUnloader);
                             node(ARBlocks.ancientVault);
-                        });
-                        node(ARBlocks.ancientItemBridge, () -> {
-                            node(ARBlocks.ancientDuct);
                         });
                     });
                 });
             });
+            //end
 
-            node(ARBlocks.ancientCoreFortress, () -> {
-                node(ARBlocks.ancientCoreStronghold);
-            });
-
+            //production
             node(ARBlocks.ancientDrill, () -> {
 
                 node(ARBlocks.ancientPump, () -> {
@@ -63,10 +58,12 @@ public class ARTechTree {
                         node(ARBlocks.ancientBurstDrill);
                     });
 
-                    node(ARBlocks.ancientAlloyArcSmelter);
+                    node(ARBlocks.ancientAlloySmelter);
                 });
             });
+            //end
 
+            //turret+wall
             node(ARBlocks.ancientDuo, () -> {
                 node(ARBlocks.ancientWall, () -> {
                     node(ARBlocks.ancientWalLarge, () -> {
@@ -82,12 +79,23 @@ public class ARTechTree {
                 });
 
             });
+            //end
 
+            //core
+            node(ARBlocks.ancientCoreFortress, () -> {
+                node(ARBlocks.ancientCoreStronghold);
+            });
+            //end
+
+            //units
 //            node(Unit factory);
+            //end
 
-//            node(ARSectorPresets.beginnings, () -> {
-//                node(ARSectorPresets.deepAncient);
+            //sector
+//            node(ARSectorPresets.unknownRuin, () -> {
+//                node(ARSectorPresets.deepEmpire);
 //            });
+            //end
 
             nodeProduce(ARItems.aScrap, () -> {
                 nodeProduce(ARLiquids.ancientWater, () -> {

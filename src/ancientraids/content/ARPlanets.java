@@ -3,10 +3,10 @@ package ancientraids.content;
 import ancientraids.expand.maps.ARPlanetGenerator;
 import arc.graphics.Color;
 import arc.util.Time;
-import mindustry.content.Blocks;
 import mindustry.content.Items;
 import mindustry.content.Planets;
 import mindustry.game.Rules;
+import mindustry.game.Team;
 import mindustry.graphics.Pal;
 import mindustry.graphics.g3d.HexMesh;
 import mindustry.graphics.g3d.HexSkyMesh;
@@ -14,10 +14,10 @@ import mindustry.graphics.g3d.MultiMesh;
 import mindustry.type.Planet;
 
 public class ARPlanets {
-    public static Planet atrantis, mace;
+    public static Planet atramace, atramoon;
 
     public static void load() {
-        atrantis = new Planet("atrantis", Planets.sun, 2, 3) {{
+        atramace = new Planet("atramace", Planets.sun, 1, 3) {{
             alwaysUnlocked = true;
             visible = true;
 
@@ -38,10 +38,10 @@ public class ARPlanets {
             allowLaunchLoadout = true;
             clearSectorOnLose = true;
 
-            defaultCore = Blocks.coreBastion;
+            defaultCore = MMNBlocks.coreBase;
 
             ruleSetter = r -> {
-                r.waveTeam = ARTeams.atramace;
+                r.waveTeam = Team.blue;
 
                 r.placeRangeCheck = false;
                 r.showSpawns = true;
@@ -72,7 +72,7 @@ public class ARPlanets {
             hiddenItems.removeAll(Items.erekirItems);
         }};
 
-        mace = new Planet("mace", atrantis, 0.35f, 2){{
+        atramoon = new Planet("atramoon", atramace, 1f, 2){{
             generator = new ARPlanetGenerator();
             meshLoader = () -> new HexMesh(this, 6);
             cloudMeshLoader = () -> new MultiMesh(
@@ -86,18 +86,20 @@ public class ARPlanets {
             allowLaunchSchematics = true;
             enemyBuildSpeedMultiplier = 0.75f;
             allowLaunchLoadout = true;
+            hiddenItems.addAll(Items.serpuloItems).removeAll(ARItems.atramaceItems);
+            hiddenItems.addAll(Items.erekirItems).removeAll(ARItems.atramaceItems);
 
             defaultCore = ARBlocks.ancientCore;
 
             ruleSetter = r -> {
-                r.waveTeam = ARTeams.atramace;
+                r.waveTeam = Team.malis;
                 r.placeRangeCheck = false;
                 r.showSpawns = true;
                 if(r.sector.preset == null)r.winWave = 500;
                 r.coreDestroyClear = true;
                 r.onlyDepositCore = true;
 
-                Rules.TeamRule teamRule = r.teams.get(r.defaultTeam);
+                Rules.TeamRule teamRule = Team.blue.rules();
                 teamRule.rtsAi = true;
 
                 teamRule = r.teams.get(r.waveTeam);

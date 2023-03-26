@@ -30,33 +30,55 @@ import static mindustry.Vars.tilesize;
 
 public class ARUnits {
     public static Weapon
-            ancientLargeLaserWeapon
+            ancientLargeLaserWeapon,
+            pointDefenceWeapon, autoTurret,
+            siegeWeapon
     ;
 
     public static Weapon laserCannon;
 
     public static Weapon basicBossWeapon;
 
+    //enemy unit. Player can't product these units.
     public static UnitType
-            //leg base
-            ancientDagger,
+            ancientDagger, legT2, legT3, legT4, legT5,
+            mechT1, mechT2, mechT3, mechT4, mechT5,
+            airT1, airT2, airT3, airT4, airT5
+    ;
+    //
+    //Normal unit. Enemy and player can product these units.
+    public static UnitType
+
             //leg
             carnage,
 
             //small unit
-            spore,
+            spore
+    ;
+    //
+    //Enemy's boss unit, but player can application it while after campaign.
+    public static UnitType
+            //leg T6 T7
+            legT6, ancientFortress,
 
+            //mech T6 T7
+            mechT6, mechT7,
+
+            //air T6 T7
+            airT6, mechanicalDragon,
+
+            ancientEye
+    ;
+    //
+    //special unit. Enemy and player can use, but can't product at factory.
+    public static UnitType
             //greece unit
             delta, epsilon, zehta, eta, theta/*, iota, kappa, lambda, mu, nu, xi, omicron, pi, rho, sigma, tau, upsilon, phi, chi, psi*/, omega,
 
             //special
             ancientAssemblyDrone, ancientCargoDrone, ancientPayloadCargoDrone
     ;
-
-    public static UnitType
-            ancientFortress, mechanicalDragon, ancientEye
-    ;
-
+    //
     static{
         EntityMapping.nameMap.put(AncientRaids.name("ancient-dagger"), EntityMapping.idMap[4]);
 
@@ -68,6 +90,7 @@ public class ARUnits {
         EntityMapping.nameMap.put(AncientRaids.name("mechanical-dragon"), EntityMapping.idMap[5]);
         EntityMapping.nameMap.put(AncientRaids.name("eye"), EntityMapping.idMap[5]);
 
+        //greece
         EntityMapping.nameMap.put(AncientRaids.name("delta"), EntityMapping.idMap[5]);
         EntityMapping.nameMap.put(AncientRaids.name("epsilon"), EntityMapping.idMap[5]);
         EntityMapping.nameMap.put(AncientRaids.name("zehta"), EntityMapping.idMap[5]);
@@ -75,6 +98,7 @@ public class ARUnits {
         EntityMapping.nameMap.put(AncientRaids.name("theta"), EntityMapping.idMap[5]);
         EntityMapping.nameMap.put(AncientRaids.name("omega"), EntityMapping.idMap[5]);
 
+        //special
         EntityMapping.nameMap.put(AncientRaids.name("ancient-assembly-drone"), EntityMapping.idMap[36]);
         EntityMapping.nameMap.put(AncientRaids.name("ancient-cargo-drone"), EntityMapping.idMap[36]);
         EntityMapping.nameMap.put(AncientRaids.name("ancient-payload-cargo-drone"), EntityMapping.idMap[5]);
