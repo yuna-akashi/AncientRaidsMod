@@ -5,7 +5,10 @@ import mindustry.content.StatusEffects;
 import mindustry.type.Liquid;
 
 public class ARLiquids {
-    public static Liquid ancientWater, conductorLiquid, efficiencyLiquid;
+    public static Liquid
+            ancientWater, conductorLiquid, efficiencyLiquid,
+            nitrogenLiquid
+    ;
 
     public static void load(){
         ancientWater = new Liquid("ancient-water", Color.valueOf("596ab8")){{

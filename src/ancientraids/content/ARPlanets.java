@@ -86,10 +86,10 @@ public class ARPlanets {
             allowLaunchSchematics = true;
             enemyBuildSpeedMultiplier = 0.75f;
             allowLaunchLoadout = true;
-            hiddenItems.addAll(Items.serpuloItems).removeAll(ARItems.atramaceItems);
-            hiddenItems.addAll(Items.erekirItems).removeAll(ARItems.atramaceItems);
+            hiddenItems.addAll(Items.serpuloItems).removeAll(AMItems.atramaceItems);
+            hiddenItems.addAll(Items.erekirItems).removeAll(AMItems.atramaceItems);
 
-            defaultCore = ARBlocks.ancientCore;
+            defaultCore = AMBlocks.ancientCore;
 
             ruleSetter = r -> {
                 r.waveTeam = Team.malis;
@@ -114,7 +114,7 @@ public class ARPlanets {
             alwaysUnlocked = true;
             landCloudColor = Pal.spore.cpy().a(0.5f);
 
-            unlockedOnLand.add(ARBlocks.ancientCore);
+            unlockedOnLand.add(AMBlocks.ancientCore);
         }};
     }
 }

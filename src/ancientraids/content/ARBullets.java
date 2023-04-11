@@ -28,7 +28,7 @@ import static arc.scene.actions.Actions.color;
 public class ARBullets {
     public static String SUPER_STRIKE, CLUSTER_STRIKE, EYE_CLUSTER;
 
-    public static MissileUnitType ancientMissile, ancientRaidMissile, clusterMissile;
+    public static MissileUnitType ancientMissile, ancientRaidMissile, mmnMissile;
 
     public static BulletType
             railgunBullet1, railcannonBullet1, railcannonBullet2, eye
@@ -225,6 +225,8 @@ public class ARBullets {
 
             despawnHit = false;
         }};
+
+        mmnMissile = new MissileUnitType()
 
         ancientRaidMissile = new MissileUnitType("ancient-raid-missile"){{
             health = 1500;

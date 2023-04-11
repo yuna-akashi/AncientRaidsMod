@@ -1,29 +1,50 @@
 package ancientraids.content;
 
+import static ancientraids.content.MMNBlocks.*;
+import static ancientraids.content.MMNItems.*;
 import static mindustry.content.TechTree.*;
 
 public class ARTechTree {
 
+    private static void loadMMN(){
+        ARPlanets.atramace.techTree = nodeRoot("momona-tech", coreBase, () -> {
+
+            node(coreCluster, () -> {
+                node(coreMomona);
+            });
+
+            node(steelSmelter);
+
+            node(ironWall, () -> {
+                node(steelWallLarge);
+            });
+
+            nodeProduce(iron, () -> {
+                nodeProduce(steel, () -> {});
+            });
+        });
+    }
+
     public static void load(){
-        ARPlanets.atramoon.techTree = nodeRoot("ancient-raids-atramace", ARBlocks.ancientCore, () -> {
+        ARPlanets.atramoon.techTree = nodeRoot("ancient-raids-atramace", AMBlocks.ancientCore, () -> {
 
             //transport
-            node(ARBlocks.ancientDuct, () -> {
-                node(ARBlocks.ancientDuctRouter, () -> {
-                    node(ARBlocks.ancientDuctBridge, () -> {
-                        node(ARBlocks.ancientArmorDuct, () -> {
-                            node(ARBlocks.ancientPhaseDuct);
-                            node(ARBlocks.ancientStackConveyor);
+            node(AMBlocks.ancientDuct, () -> {
+                node(AMBlocks.ancientDuctRouter, () -> {
+                    node(AMBlocks.ancientDuctBridge, () -> {
+                        node(AMBlocks.ancientArmorDuct, () -> {
+                            node(AMBlocks.ancientPhaseDuct);
+                            node(AMBlocks.ancientStackConveyor);
                         });
-                        node(ARBlocks.ancientCargoLoader, () -> {
-                            node(ARBlocks.ancientCargoUnloadPoint);
+                        node(AMBlocks.ancientCargoLoader, () -> {
+                            node(AMBlocks.ancientCargoUnloadPoint);
                         });
                     });
-                    node(ARBlocks.ancientOverflowDuct, () -> {
-                        node(ARBlocks.ancientUnderflowDuct);
-                        node(ARBlocks.ancientContainer, () -> {
-                            node(ARBlocks.ancientDuctUnloader);
-                            node(ARBlocks.ancientVault);
+                    node(AMBlocks.ancientOverflowDuct, () -> {
+                        node(AMBlocks.ancientUnderflowDuct);
+                        node(AMBlocks.ancientContainer, () -> {
+                            node(AMBlocks.ancientDuctUnloader);
+                            node(AMBlocks.ancientVault);
                         });
                     });
                 });
@@ -31,59 +52,59 @@ public class ARTechTree {
             //end
 
             //production
-            node(ARBlocks.ancientDrill, () -> {
+            node(AMBlocks.ancientDrill, () -> {
 
-                node(ARBlocks.ancientPump, () -> {
-                    node(ARBlocks.ancientConduit, () -> {
-                        node(ARBlocks.ancientLiquidJunction, () -> {
-                            node(ARBlocks.ancientLiquidRouter, () -> {
-                                node(ARBlocks.ancientLiquidContainer, () -> {
-                                    node(ARBlocks.ancientLiquidTank);
+                node(AMBlocks.ancientPump, () -> {
+                    node(AMBlocks.ancientConduit, () -> {
+                        node(AMBlocks.ancientLiquidJunction, () -> {
+                            node(AMBlocks.ancientLiquidRouter, () -> {
+                                node(AMBlocks.ancientLiquidContainer, () -> {
+                                    node(AMBlocks.ancientLiquidTank);
                                 });
 
-                                node(ARBlocks.ancientBridgeConduit);
+                                node(AMBlocks.ancientBridgeConduit);
 
-                                node(ARBlocks.ancientReinforcedConduit, () -> {
-                                    node(ARBlocks.ancientPhaseConduit);
+                                node(AMBlocks.ancientReinforcedConduit, () -> {
+                                    node(AMBlocks.ancientPhaseConduit);
 
-                                    node(ARBlocks.ancientReinforcedPump);
+                                    node(AMBlocks.ancientReinforcedPump);
                                 });
                             });
                         });
                     });
                 });
 
-                node(ARBlocks.ancientMetalSmelter, () -> {
-                    node(ARBlocks.ancientBeamDrill, () -> {
-                        node(ARBlocks.ancientBurstDrill);
+                node(AMBlocks.ancientMetalSmelter, () -> {
+                    node(AMBlocks.ancientBeamDrill, () -> {
+                        node(AMBlocks.ancientBurstDrill);
                     });
 
-                    node(ARBlocks.ancientAlloySmelter);
+                    node(AMBlocks.ancientAlloySmelter);
                 });
             });
             //end
 
             //turret+wall
-            node(ARBlocks.ancientDuo, () -> {
-                node(ARBlocks.ancientWall, () -> {
-                    node(ARBlocks.ancientWalLarge, () -> {
-                        node(ARBlocks.ancientDefenceWall, () -> {
-                            node(ARBlocks.ancientDefenceWallLarge);
-                            node(ARBlocks.ancientDefenceDoor);
+            node(AMBlocks.ancientDuo, () -> {
+                node(AMBlocks.ancientWall, () -> {
+                    node(AMBlocks.ancientWalLarge, () -> {
+                        node(AMBlocks.ancientDefenceWall, () -> {
+                            node(AMBlocks.ancientDefenceWallLarge);
+                            node(AMBlocks.ancientDefenceDoor);
                         });
                     });
                 });
 
-                node(ARBlocks.ancientRailgun, () -> {
-                    node(ARBlocks.ancientRailcannon);
+                node(AMBlocks.ancientRailgun, () -> {
+                    node(AMBlocks.ancientRailcannon);
                 });
 
             });
             //end
 
             //core
-            node(ARBlocks.ancientCoreFortress, () -> {
-                node(ARBlocks.ancientCoreStronghold);
+            node(AMBlocks.ancientCoreFortress, () -> {
+                node(AMBlocks.ancientCoreStronghold);
             });
             //end
 
@@ -97,21 +118,23 @@ public class ARTechTree {
 //            });
             //end
 
-            nodeProduce(ARItems.aScrap, () -> {
+            nodeProduce(AMItems.aScrap, () -> {
                 nodeProduce(ARLiquids.ancientWater, () -> {
                     nodeProduce(ARLiquids.conductorLiquid, () -> {});
                     nodeProduce(ARLiquids.efficiencyLiquid, () -> {});
                 });
 
-                nodeProduce(ARItems.aGlass, () -> {});
-                nodeProduce(ARItems.aMetal, () -> {
-                    nodeProduce(ARItems.conductor, () -> {
-                        nodeProduce(ARItems.cube, () -> {});
+                nodeProduce(AMItems.aGlass, () -> {});
+                nodeProduce(AMItems.aMetal, () -> {
+                    nodeProduce(AMItems.conductor, () -> {
+                        nodeProduce(AMItems.cube, () -> {});
                     });
-                    nodeProduce(ARItems.aAlloy, () -> {});
+                    nodeProduce(AMItems.aAlloy, () -> {});
                 });
 
             });
         });
+
+        loadMMN();
     }
 }

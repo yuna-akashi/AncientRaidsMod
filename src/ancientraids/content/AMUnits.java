@@ -28,7 +28,7 @@ import mindustry.world.meta.Env;
 
 import static mindustry.Vars.tilesize;
 
-public class ARUnits {
+public class AMUnits {
     public static Weapon
             ancientLargeLaserWeapon,
             pointDefenceWeapon, autoTurret,
@@ -109,7 +109,7 @@ public class ARUnits {
             super(name);
             envDisabled = Env.space;
 
-            ammoType = new ItemAmmoType(ARItems.aMetal);
+            ammoType = new ItemAmmoType(AMItems.aMetal);
         }
     }
 
@@ -288,7 +288,7 @@ public class ARUnits {
             outlineColor = Pal.darkOutline;
 
             mineWalls = true;
-            mineItems = Seq.with(ARItems.aScrap);
+            mineItems = Seq.with(AMItems.aScrap);
             mineHardnessScaling = false;
             mineSpeed = 7.25f;
             mineTier = 10;
