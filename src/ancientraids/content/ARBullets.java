@@ -226,7 +226,83 @@ public class ARBullets {
             despawnHit = false;
         }};
 
-        mmnMissile = new MissileUnitType()
+        mmnMissile = new MissileUnitType("mmn-missile"){{
+            speed = 6f;
+            maxRange = 6f;
+            lifetime = 60f * 5.5f;
+            outlineColor = Pal.darkOutline;
+            engineColor = trailColor = ARColor.mmnColor2;
+            engineLayer = Layer.effect;
+            engineSize = 3.1f;
+            engineOffset = 10f;
+            rotateSpeed = 6f;
+            trailLength = 18;
+            missileAccelTime = 50f;
+            lowAltitude = true;
+            loopSound = Sounds.missileTrail;
+            loopSoundVolume = 0.6f;
+            deathSound = Sounds.largeExplosion;
+            targetAir = true;
+
+            fogRadius = 6f;
+
+            health = 210;
+
+            weapons.add(new Weapon(){{
+                shootCone = 360f;
+                mirror = false;
+                reload = 1f;
+                deathExplosionEffect = Fx.massiveExplosion;
+                shootOnDeath = true;
+                shake = 10f;
+                bullet = new ExplosionBulletType(640f, 65f){{
+                    hitColor = ARColor.mmnColor2;
+                    shootEffect = new MultiEffect(Fx.massiveExplosion, Fx.scatheExplosion, Fx.scatheLight, new WaveEffect(){{
+                        lifetime = 10f;
+                        strokeFrom = 4f;
+                        sizeTo = 130f;
+                    }});
+
+                    collidesAir = true;
+                    buildingDamageMultiplier = 0.3f;
+
+                    ammoMultiplier = 1f;
+                    fragLifeMin = 0.1f;
+                    fragBullets = 7;
+                    fragBullet = new ArtilleryBulletType(3.4f, 32){{
+                        buildingDamageMultiplier = 0.3f;
+                        drag = 0.02f;
+                        hitEffect = Fx.massiveExplosion;
+                        despawnEffect = Fx.scatheSlash;
+                        knockback = 0.8f;
+                        lifetime = 23f;
+                        width = height = 18f;
+                        collidesTiles = false;
+                        splashDamageRadius = 40f;
+                        splashDamage = 80f;
+                        backColor = trailColor = hitColor = ARColor.mmnColor2;
+                        frontColor = Color.white;
+                        smokeEffect = Fx.shootBigSmoke2;
+                        despawnShake = 7f;
+                        lightRadius = 30f;
+                        lightColor = ARColor.mmnColor2;
+                        lightOpacity = 0.5f;
+
+                        trailLength = 20;
+                        trailWidth = 3.5f;
+                        trailEffect = Fx.none;
+                    }};
+                }};
+            }});
+
+            abilities.add(new MoveEffectAbility(){{
+                effect = Fx.missileTrailSmoke;
+                rotation = 180f;
+                y = -9f;
+                color = Color.grays(0.6f).lerp(ARColor.mmnColor2, 0.5f).a(0.4f);
+                interval = 7f;
+            }});
+        }};
 
         ancientRaidMissile = new MissileUnitType("ancient-raid-missile"){{
             health = 1500;

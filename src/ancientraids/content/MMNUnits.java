@@ -2,6 +2,7 @@ package ancientraids.content;
 
 import ancientraids.AncientRaids;
 import arc.math.geom.Rect;
+import mindustry.ai.UnitCommand;
 import mindustry.ai.types.AssemblerAI;
 import mindustry.gen.EntityMapping;
 import mindustry.graphics.Pal;
@@ -35,10 +36,30 @@ public class MMNUnits {
     //
 
     static{
-        EntityMapping.nameMap.put(AncientRaids.name("pTankT1"), EntityMapping.idMap[43]);
-        EntityMapping.nameMap.put(AncientRaids.name("pTankT2"), EntityMapping.idMap[43]);
-        EntityMapping.nameMap.put(AncientRaids.name("pTankT3"), EntityMapping.idMap[43]);
+        EntityMapping.nameMap.put(AncientRaids.name("pTankAlpha"), EntityMapping.idMap[43]);
+        EntityMapping.nameMap.put(AncientRaids.name("pTankBeta"), EntityMapping.idMap[43]);
+        EntityMapping.nameMap.put(AncientRaids.name("pTankGamma"), EntityMapping.idMap[43]);
         EntityMapping.nameMap.put(AncientRaids.name("pTankBoss"), EntityMapping.idMap[43]);
+
+        EntityMapping.nameMap.put(AncientRaids.name("pMechAlpha"), EntityMapping.idMap[24]);
+        EntityMapping.nameMap.put(AncientRaids.name("pMechBeta"), EntityMapping.idMap[24]);
+        EntityMapping.nameMap.put(AncientRaids.name("pMechGamma"), EntityMapping.idMap[24]);
+        EntityMapping.nameMap.put(AncientRaids.name("pMechBoss"), EntityMapping.idMap[24]);
+
+        EntityMapping.nameMap.put(AncientRaids.name("pShipAlpha"), EntityMapping.idMap[3]);
+        EntityMapping.nameMap.put(AncientRaids.name("pShipBeta"), EntityMapping.idMap[3]);
+        EntityMapping.nameMap.put(AncientRaids.name("pShipGamma"), EntityMapping.idMap[3]);
+        EntityMapping.nameMap.put(AncientRaids.name("pShipBoss"), EntityMapping.idMap[3]);
+
+        EntityMapping.nameMap.put(AncientRaids.name("pAirMiner"), EntityMapping.idMap[3]);
+        EntityMapping.nameMap.put(AncientRaids.name("pAirRepair"), EntityMapping.idMap[3]);
+        EntityMapping.nameMap.put(AncientRaids.name("pAirReBuilder"), EntityMapping.idMap[3]);
+        EntityMapping.nameMap.put(AncientRaids.name("pAirHealer"), EntityMapping.idMap[3]);
+        EntityMapping.nameMap.put(AncientRaids.name("pAirCarrier"), EntityMapping.idMap[5]);
+
+        EntityMapping.nameMap.put(AncientRaids.name("recon"), EntityMapping.idMap[3]);
+        EntityMapping.nameMap.put(AncientRaids.name("launcher"), EntityMapping.idMap[3]);
+        EntityMapping.nameMap.put(AncientRaids.name("bommer"), EntityMapping.idMap[3]);
 
         EntityMapping.nameMap.put(AncientRaids.name("momo"), EntityMapping.idMap[3]);
         EntityMapping.nameMap.put(AncientRaids.name("mona"), EntityMapping.idMap[3]);
@@ -87,6 +108,32 @@ public class MMNUnits {
         pMechTAlpha = new MMNUnitType("alpha-mech"){{
             health = 500;
             armor = 4;
+        }};
+
+        //pemu
+        recon = new MMNUnitType("recon"){{
+            defaultCommand = UnitCommand.assistCommand;
+
+            buildSpeed = 3.5f;
+            mineTier = 9;
+            mineSpeed = 23f;
+
+            isEnemy = false;
+
+            health = 20000;
+            armor = 120;
+            targetable = false;
+
+            speed = 15f;
+            rotateSpeed = 8f;
+            accel = 0.05f;
+            drag = 0.08f;
+            flying = true;
+            engineSize = 0f;
+            hitSize = 25f;
+            itemCapacity = 65;
+
+            fogRadius = 20f;
         }};
 
         //core
