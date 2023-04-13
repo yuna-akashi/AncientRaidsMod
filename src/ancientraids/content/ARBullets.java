@@ -36,6 +36,7 @@ public class ARBullets {
 
     static {
         EntityMapping.nameMap.put(AncientRaids.name("ancient-missile"), EntityMapping.idMap[39]);
+        EntityMapping.nameMap.put(AncientRaids.name("mmn-missile"), EntityMapping.idMap[39]);
         EntityMapping.nameMap.put(AncientRaids.name("ancient-raid-missile"), EntityMapping.idMap[39]);
     }
 
@@ -228,13 +229,13 @@ public class ARBullets {
 
         mmnMissile = new MissileUnitType("mmn-missile"){{
             speed = 6f;
-            maxRange = 6f;
+            maxRange = 20f;
             lifetime = 60f * 5.5f;
             outlineColor = Pal.darkOutline;
             engineColor = trailColor = ARColor.mmnColor2;
             engineLayer = Layer.effect;
-            engineSize = 3.1f;
-            engineOffset = 10f;
+            engineSize = 4f;
+            engineOffset = 20f;
             rotateSpeed = 6f;
             trailLength = 18;
             missileAccelTime = 50f;
@@ -246,7 +247,7 @@ public class ARBullets {
 
             fogRadius = 6f;
 
-            health = 210;
+            health = 8000;
 
             weapons.add(new Weapon(){{
                 shootCone = 360f;
@@ -255,7 +256,7 @@ public class ARBullets {
                 deathExplosionEffect = Fx.massiveExplosion;
                 shootOnDeath = true;
                 shake = 10f;
-                bullet = new ExplosionBulletType(640f, 65f){{
+                bullet = new ExplosionBulletType(8000f, 65f){{
                     hitColor = ARColor.mmnColor2;
                     shootEffect = new MultiEffect(Fx.massiveExplosion, Fx.scatheExplosion, Fx.scatheLight, new WaveEffect(){{
                         lifetime = 10f;
@@ -264,13 +265,11 @@ public class ARBullets {
                     }});
 
                     collidesAir = true;
-                    buildingDamageMultiplier = 0.3f;
 
                     ammoMultiplier = 1f;
                     fragLifeMin = 0.1f;
                     fragBullets = 7;
-                    fragBullet = new ArtilleryBulletType(3.4f, 32){{
-                        buildingDamageMultiplier = 0.3f;
+                    fragBullet = new ArtilleryBulletType(3.4f, 200){{
                         drag = 0.02f;
                         hitEffect = Fx.massiveExplosion;
                         despawnEffect = Fx.scatheSlash;
@@ -279,7 +278,7 @@ public class ARBullets {
                         width = height = 18f;
                         collidesTiles = false;
                         splashDamageRadius = 40f;
-                        splashDamage = 80f;
+                        splashDamage = 360f;
                         backColor = trailColor = hitColor = ARColor.mmnColor2;
                         frontColor = Color.white;
                         smokeEffect = Fx.shootBigSmoke2;
@@ -305,7 +304,7 @@ public class ARBullets {
         }};
 
         ancientRaidMissile = new MissileUnitType("ancient-raid-missile"){{
-            health = 1500;
+            health = 12000;
             hittable = targetable = false;
 
             speed = 20f;

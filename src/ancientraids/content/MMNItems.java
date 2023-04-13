@@ -23,7 +23,7 @@ public class MMNItems {
             cost = 0.71f;
         }};
 
-        mmnCementAlloy = new Item("reinforced-cement", ARColor.mmnColor3);
+        mmnCementAlloy = new Item("mmn-cement-alloy", ARColor.mmnColor3);
         steel = new Item("steel", Color.valueOf("6c676e")){{
             cost = 1.5f;
             healthScaling = 1.6f;
@@ -38,7 +38,7 @@ public class MMNItems {
 
         momonaItems.addAll(
                 iron, cement, mmnCementAlloy, steel, mmnAlloy, microProcessor, mmnProcessor,
-                Items.silicon, Items.sand
+                Items.silicon, Items.sand, Items.graphite
         );
     }
 }

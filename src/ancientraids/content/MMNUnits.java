@@ -1,15 +1,32 @@
 package ancientraids.content;
 
 import ancientraids.AncientRaids;
+import ancientraids.expand.bullets.AccelSpeedBulletType;
+import arc.graphics.Color;
+import arc.math.Interp;
 import arc.math.geom.Rect;
 import mindustry.ai.UnitCommand;
 import mindustry.ai.types.AssemblerAI;
+import mindustry.content.Fx;
+import mindustry.content.Items;
+import mindustry.content.StatusEffects;
+import mindustry.entities.abilities.ForceFieldAbility;
+import mindustry.entities.bullet.BombBulletType;
+import mindustry.entities.bullet.BulletType;
+import mindustry.entities.part.RegionPart;
+import mindustry.entities.pattern.ShootAlternate;
 import mindustry.gen.EntityMapping;
 import mindustry.graphics.Pal;
 import mindustry.type.UnitType;
+import mindustry.type.Weapon;
 import mindustry.type.ammo.ItemAmmoType;
 import mindustry.type.unit.TankUnitType;
+import mindustry.type.weapons.BuildWeapon;
+import mindustry.type.weapons.RepairBeamWeapon;
+import mindustry.world.meta.BlockFlag;
 import mindustry.world.meta.Env;
+
+import static mindustry.Vars.tilesize;
 
 public class MMNUnits {
     //Player's units. Units made by adapting ancient units.
@@ -17,11 +34,11 @@ public class MMNUnits {
             //generic
             pUnitT1,
             //tank
-            pTankTAlpha, pTankTBeta, pTankTGamma, pTankBoss,
+            pTankAlpha, pTankBeta, pTankGamma, pTankBoss,
             //mech
-            pMechTAlpha, pMechTBeta, pMechTGamma, pMechBoss,
+            pMechAlpha, pMechBeta, pMechGamma, pMechBoss,
             //ship
-            pShipTAlpha, pShipTBeta, pShipTGamma, pShipBoss,
+            pShipAlpha, pShipBeta, pShipGamma, pShipBoss,
             //fighter
             recon, launcher, bommer,
             //support air
@@ -96,18 +113,156 @@ public class MMNUnits {
         loadWeapons();
 
         //tank
+        pTankAlpha = new MMNUnitType("pTankAlpha"){{
+            health = 500;
+            armor = 5;
+        }};
+        pTankBeta = new MMNUnitType("pTankBeta"){{
+            health = 2500;
+            armor = 75;
+        }};
+        pTankGamma = new MMNUnitType("pTankGamma"){{
+            health = 5000;
+            armor = 150;
+        }};
         pTankBoss = new MMNTankUnitType("pTankBoss"){{
             health = 50000;
             armor = 1500;
 
-            hitSize = 20f;
+            speed = 0.5f;
+            rotateSpeed = 1f;
+
+            hitSize = 80f;
+
             treadRects = new Rect[]{new Rect(16 - 60, 48 - 70f, 30, 75), new Rect()};
+
+            weapons.add(
+                    new Weapon(AncientRaids.name("pTankBoss-weapon")){{
+                        mirror = false;
+                        rotate = true;
+
+                        x = y = 0;
+                        shootY = 30f;
+                        reload = 60f * 5f;
+                        cooldownTime = 2f *60f;
+                        recoil = 2f;
+                        rotateSpeed = 0.4f;
+                        shoot = new ShootAlternate(25f){{
+                            shots = 3;
+                        }};
+
+                        bullet = new AccelSpeedBulletType(40,5000){{
+                            velocityBegin = 1f;
+                            velocityIncrease = 20f;
+                            accelInterp = a -> 2 * (0.9f * a + 0.31f) + 1f / (5f * (a + 0.1f)) - 1.6f;
+                            accelerateBegin = 0.045f;
+                            accelerateEnd = 0.675f;
+
+                            pierceArmor = true;
+                        }};
+                    }}
+            );
         }};
 
         //mech
-        pMechTAlpha = new MMNUnitType("alpha-mech"){{
-            health = 500;
-            armor = 4;
+        pMechAlpha = new MMNUnitType("pMechAlpha"){{
+            health = 400;
+            armor = 3;
+        }};
+        pMechBeta = new MMNUnitType("pMechBeta"){{
+            health = 1600;
+            armor = 50;
+        }};
+        pMechGamma = new MMNUnitType("pMechGamma"){{
+            health = 4000;
+            armor = 100;
+        }};
+        pMechBoss = new MMNUnitType("pMechBoss"){{
+            health = 40000;
+            armor = 1000;
+
+            hitSize = 80f;
+        }};
+
+        //ship
+        pShipAlpha = new MMNUnitType("pShipAlpha"){{
+            health = 450;
+            armor = 2;
+        }};
+        pShipBeta = new MMNUnitType("pShipBeta"){{
+            health = 1700;
+            armor = 30;
+        }};
+        pShipGamma = new MMNUnitType("pShipGamma"){{
+            health = 4500;
+            armor = 60;
+        }};
+        pShipBoss = new MMNUnitType("pShipBoss"){{
+            health = 45000;
+            armor = 600;
+
+            hitSize = 80f;
+        }};
+
+        //air
+        pAirMiner = new MMNUnitType("pAirMiner"){{
+            defaultCommand = UnitCommand.mineCommand;
+
+            health = 240;
+
+            hitSize = 10f;
+
+            mineTier = 4;
+            mineSpeed = 6f;
+        }};
+        pAirRepair = new MMNUnitType("pAirRepair"){{
+            health = 480;
+
+            hitSize = 20f;
+
+            weapons.add(
+                    new RepairBeamWeapon(){{
+                        repairSpeed = 8f;
+                    }}
+            );
+        }};
+        pAirReBuilder = new MMNUnitType("pAirReBuilder"){{
+            defaultCommand = UnitCommand.rebuildCommand;
+
+            health = 960;
+
+            hitSize = 30f;
+
+            weapons.add(
+                    new BuildWeapon(){{
+                        buildSpeed = 3f;
+                    }}
+            );
+        }};
+        pAirHealer = new MMNUnitType("pAirHealer"){{
+            health = 1820;
+
+            hitSize = 40f;
+
+            weapons.add(
+                    new RepairBeamWeapon(){{
+                        targetBuildings = false;
+                        targetUnits = true;
+
+                        repairSpeed = 4.5f;
+                    }}
+            );
+        }};
+        pAirCarrier = new MMNUnitType("pAirCarrier"){{
+            health = 3640;
+
+            hitSize = 60f;
+
+            payloadCapacity = 10 * 10 * tilesize * tilesize;
+
+            abilities.add(
+                    new ForceFieldAbility(120, 25 * 60, 5000, 5 * 60)
+            );
         }};
 
         //pemu
@@ -135,10 +290,120 @@ public class MMNUnits {
 
             fogRadius = 20f;
         }};
+        launcher = new MMNUnitType("launcher"){{
+            isEnemy = false;
+
+            health = 20000;
+            armor = 120;
+
+            speed = 15f;
+            rotateSpeed = 8f;
+            accel = 0.05f;
+            drag = 0.08f;
+            flying = true;
+            engineSize = 0f;
+            hitSize = 25f;
+            itemCapacity = 65;
+            circleTarget = true;
+
+            targetFlags = new BlockFlag[]{BlockFlag.launchPad, BlockFlag.storage, BlockFlag.battery, BlockFlag.generator, BlockFlag.core, null};
+
+            weapons.add(
+                    new Weapon(){{
+                        x = y = 0;
+                        mirror = false;
+                        reload = 60f * 30f;
+                        cooldownTime = 60f * 10f;
+                        maxRange = 160f;
+
+                        bullet = new BulletType(){{
+                            shootEffect = Fx.sparkShoot;
+                            smokeEffect = Fx.shootSmokeTitan;
+                            hitColor = ARColor.mmnColor2;
+                            shake = 10f;
+                            speed = 0f;
+                            keepVelocity = false;
+                            spawnUnit = ARBullets.mmnMissile;
+                        }};
+
+                        parts.add(
+                                new RegionPart(AncientRaids.name("mmn-missile")){{
+                                    progress = PartProgress.reload.curve(Interp.pow2In);
+
+                                    colorTo = new Color(1f, 1f, 1f, 0f);
+                                    color = Color.white;
+                                    mixColorTo = Pal.accent;
+                                    mixColor = new Color(1f, 1f, 1f, 0f);
+                                    outline = false;
+                                    under = true;
+
+                                    layerOffset = -0.01f;
+                                }}
+                        );
+                    }}
+            );
+        }};
+        bommer = new MMNUnitType("bommer"){{
+            isEnemy = false;
+
+            health = 20000;
+            armor = 120;
+
+            speed = 15f;
+            rotateSpeed = 8f;
+            accel = 0.05f;
+            drag = 0.08f;
+            flying = true;
+            engineSize = 0f;
+            hitSize = 25f;
+            itemCapacity = 65;
+            circleTarget = true;
+
+            targetFlags = new BlockFlag[]{BlockFlag.factory, BlockFlag.reactor, null};
+            ammoType = new ItemAmmoType(Items.graphite);
+
+            weapons.add(
+                    new Weapon(){{
+                        x = y = 0;
+                        reload = 1.5f * 60f;
+                        cooldownTime = 0.5f * 60f;
+                        bullet = new BombBulletType(4500, 30){{
+                            width = 30f;
+                            height = 30f;
+                            hittable = false;
+                            targetable = false;
+
+                            hitEffect = Fx.flakExplosion;
+                            shootEffect = Fx.none;
+                            smokeEffect = Fx.none;
+
+                            status = StatusEffects.blasted;
+                            statusDuration = 60f * 6f;
+                        }};
+                    }}
+            );
+        }};
 
         //core
         momo = new MMNUnitType("momo"){{
             health = 2500;
+
+            mineTier = 4;
+            mineSpeed = 5f;
+        }};
+
+        mona = new MMNUnitType("mona"){{
+            health = 3000;
+
+            mineTier = 6;
+            mineSpeed = 10f;
+        }};
+
+        momona = new MMNUnitType("momona"){{
+            health = 5000;
+
+            mineTier = 10;
+            mineSpeed = 20f;
         }};
 
         //special

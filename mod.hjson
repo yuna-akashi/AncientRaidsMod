@@ -5,4 +5,4 @@ main: "ancientraids.AncientRaids"
 description: "Defend from Ancient technology. It's beta"
 version: 0.0.2
 java: true
-minGameVersion: 141
+minGameVersion: 142

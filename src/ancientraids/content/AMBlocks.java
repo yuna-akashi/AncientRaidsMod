@@ -202,7 +202,7 @@ public class AMBlocks {
 
             consumeLiquid(ARLiquids.conductorLiquid, 1.2f);
             consumeItems(with(AMItems.aScrap, 4));
-            outputItem = new ItemStack(AMItems.aAlloy, 1);
+            outputItem = new ItemStack(AMItems.aCementAlloy, 1);
             craftTime = 1.33f * 60f;
 
             drawer = new DrawMulti(
@@ -217,14 +217,14 @@ public class AMBlocks {
             health = 1800;
 
             consumeLiquid(ARLiquids.conductorLiquid, 2f);
-            consumeItems(with(AMItems. aAlloy, 1, AMItems.conductor, 2));
+            consumeItems(with(AMItems.aCementAlloy, 1, AMItems.conductor, 2));
             outputItem = new ItemStack(AMItems.cube, 1);
             craftTime = 2f * 60f;
             drawer = new DrawMulti(
                     new DrawDefault()
             );
 
-            requirements(Category.crafting, with(AMItems.aAlloy, 200));
+            requirements(Category.crafting, with(AMItems.aCementAlloy, 200));
         }};
 
         ancientMetalARCSmelter = new GenericCrafter("ancient-metal-arc-smelter"){{
@@ -241,7 +241,7 @@ public class AMBlocks {
 
             consumeLiquid(ARLiquids.conductorLiquid, 1.2f);
             consumeItems(with(AMItems.aScrap, 4));
-            outputItem = new ItemStack(AMItems.aAlloy, 1);
+            outputItem = new ItemStack(AMItems.aCementAlloy, 1);
             craftTime = 1.33f * 60f;
 
             drawer = new DrawMulti(
@@ -268,21 +268,21 @@ public class AMBlocks {
             health = 1250 * wallHPMultiplier;
             armor = 50;
 
-            requirements(Category.defense, with(AMItems.aAlloy, 8));
+            requirements(Category.defense, with(AMItems.aCementAlloy, 8));
         }};
         ancientDefenceWallLarge = new Wall("ancient-defence-wall-large"){{
             size = 2;
             health = 1250 * 4 * wallHPMultiplier;
             armor = 100;
 
-            requirements(Category.defense, with(AMItems.aAlloy, 32));
+            requirements(Category.defense, with(AMItems.aCementAlloy, 32));
         }};
         ancientDefenceDoor = new AutoDoor("ancient-defence-door"){{
             size = 2;
             health = 1000 * 4 * wallHPMultiplier;
             armor = 50;
 
-            requirements(Category.defense, with(AMItems.aAlloy, 32));
+            requirements(Category.defense, with(AMItems.aCementAlloy, 32));
         }};
         //endregion
         //defence
@@ -311,9 +311,9 @@ public class AMBlocks {
 
             speed = 2.5f;
 
-            researchCost = with(AMItems.aMetal, 300, AMItems.aAlloy, 100);
+            researchCost = with(AMItems.aMetal, 300, AMItems.aCementAlloy, 100);
 
-            requirements(Category.distribution, with(AMItems.aMetal, 2, AMItems.aAlloy, 1));
+            requirements(Category.distribution, with(AMItems.aMetal, 2, AMItems.aCementAlloy, 1));
         }};
 
         ancientDuctRouter = new DuctRouter("ancient-duct-router"){{
@@ -334,9 +334,9 @@ public class AMBlocks {
             size = 2;
             health = 2000;
 
-            researchCost = with(AMItems.aAlloy, 60);
+            researchCost = with(AMItems.aCementAlloy, 60);
 
-            requirements(Category.distribution, with(AMItems.aAlloy, 20));
+            requirements(Category.distribution, with(AMItems.aCementAlloy, 20));
         }};
 
         ancientOverflowDuct = new OverflowDuct("ancient-overflow-duct"){{
@@ -349,7 +349,7 @@ public class AMBlocks {
 
             researchCostMultiplier = 1.5f;
 
-            requirements(Category.distribution, with(Items.graphite, 8, AMItems.aAlloy, 8));
+            requirements(Category.distribution, with(Items.graphite, 8, AMItems.aCementAlloy, 8));
         }};
 
         ancientUnderflowDuct = new OverflowDuct("ancient-underflow-duct"){{
@@ -363,7 +363,7 @@ public class AMBlocks {
 
             researchCostMultiplier = 1.5f;
 
-            requirements(Category.distribution, with(Items.graphite, 8, AMItems.aAlloy, 8));
+            requirements(Category.distribution, with(Items.graphite, 8, AMItems.aCementAlloy, 8));
         }};
         ancientDuctBridge = new DuctBridge("ancient-duct-bridge"){{
             size = 1;
@@ -384,7 +384,7 @@ public class AMBlocks {
             hasPower = false;
             range = 40;
 
-            requirements(Category.distribution, with(AMItems.aAlloy, 20));
+            requirements(Category.distribution, with(AMItems.aCementAlloy, 20));
         }};
 
         ancientDuctUnloader = new DirectionalUnloader("ancient-duct-unloader"){{
@@ -397,7 +397,7 @@ public class AMBlocks {
             underBullets = true;
             regionRotated1 = 1;
 
-            requirements(Category.distribution, with(Items.graphite, 20, AMItems.aAlloy, 10));
+            requirements(Category.distribution, with(Items.graphite, 20, AMItems.aCementAlloy, 10));
         }};
 
         //special
@@ -414,9 +414,9 @@ public class AMBlocks {
             underBullets = true;
             baseEfficiency = 1f;
 
-            researchCost = with(AMItems.aMetal, 30, AMItems.aAlloy, 80);
+            researchCost = with(AMItems.aMetal, 30, AMItems.aCementAlloy, 80);
 
-            requirements(Category.distribution, with(AMItems.conductor, 30, AMItems.aAlloy, 80));
+            requirements(Category.distribution, with(AMItems.conductor, 30, AMItems.aCementAlloy, 80));
         }};
 
         ancientStackRouter = new StackRouter("ancient-stack-router"){{
@@ -429,7 +429,7 @@ public class AMBlocks {
             underBullets = true;
             solid = false;
 
-            requirements(Category.distribution, with(AMItems.conductor, 5, AMItems.aAlloy, 1));
+            requirements(Category.distribution, with(AMItems.conductor, 5, AMItems.aCementAlloy, 1));
         }};
 
         ancientMassDriver = new MassDriver("ancient-mass-driver"){{
@@ -463,7 +463,7 @@ public class AMBlocks {
                 hittable = false;
             }};
 
-            requirements(Category.distribution, with(AMItems.aAlloy, 715, AMItems.conductor, 135, AMItems.cube, 50));
+            requirements(Category.distribution, with(AMItems.aCementAlloy, 715, AMItems.conductor, 135, AMItems.cube, 50));
         }};
 
         ancientCargoLoader = new UnitCargoLoader("ancient-cargo-loader"){{
@@ -478,7 +478,7 @@ public class AMBlocks {
 
             itemCapacity = 400;
 
-            requirements(Category.distribution, with(AMItems.aAlloy, 200, AMItems.conductor, 75, AMItems.cube, 25));
+            requirements(Category.distribution, with(AMItems.aCementAlloy, 200, AMItems.conductor, 75, AMItems.cube, 25));
         }};
 
         ancientCargoUnloadPoint = new UnitCargoUnloadPoint("ancient-cargo-unload-point"){{
@@ -486,7 +486,7 @@ public class AMBlocks {
 
             itemCapacity = 200;
 
-            requirements(Category.distribution, with(AMItems.aAlloy, 225, AMItems.conductor, 75));
+            requirements(Category.distribution, with(AMItems.aCementAlloy, 225, AMItems.conductor, 75));
         }};
 
         //endregion
@@ -509,7 +509,7 @@ public class AMBlocks {
 
             pumpAmount = 0.5f;
 
-            requirements(Category.liquid, with(AMItems.aAlloy, 40, AMItems.aGlass, 25));
+            requirements(Category.liquid, with(AMItems.aCementAlloy, 40, AMItems.aGlass, 25));
         }};
 
         ancientConduit = new Conduit("ancient-conduit"){{
@@ -534,7 +534,7 @@ public class AMBlocks {
             underBullets = true;
             botColor = Pal.darkestMetal;
 
-            requirements(Category.liquid, with(AMItems.aAlloy, 2, AMItems.aGlass, 1));
+            requirements(Category.liquid, with(AMItems.aCementAlloy, 2, AMItems.aGlass, 1));
         }};
 
         ancientLiquidJunction = new LiquidJunction("ancient-liquid-junction"){{
@@ -586,7 +586,7 @@ public class AMBlocks {
 
             ((Conduit)ancientReinforcedConduit).rotBridgeReplacement = this;
 
-            requirements(Category.liquid, with(AMItems.aAlloy, 10, AMItems.aGlass, 20));
+            requirements(Category.liquid, with(AMItems.aCementAlloy, 10, AMItems.aGlass, 20));
         }};
 
         ancientLiquidContainer = new LiquidRouter("ancient-liquid-container"){{
@@ -612,7 +612,7 @@ public class AMBlocks {
             liquidCapacity = 12000;
             liquidPadding = 2.5f;
 
-            requirements(Category.liquid, with(AMItems.aAlloy , 50, AMItems.aGlass, 40));
+            requirements(Category.liquid, with(AMItems.aCementAlloy, 50, AMItems.aGlass, 40));
         }};
 
         //endregion
@@ -685,7 +685,7 @@ public class AMBlocks {
 
             consumeLiquids(LiquidStack.with(ARLiquids.conductorLiquid, 4f / 60f));
 
-            requirements(Category.production, with(AMItems.aAlloy, 200, AMItems.conductor, 200, AMItems.cube, 140));
+            requirements(Category.production, with(AMItems.aCementAlloy, 200, AMItems.conductor, 200, AMItems.cube, 140));
         }};
 
         //endregion
@@ -749,7 +749,7 @@ public class AMBlocks {
 
             incinerateNonBuildable = true;
 
-            requirements(Category.effect, with(AMItems.aAlloy, 3920));
+            requirements(Category.effect, with(AMItems.aCementAlloy, 3920));
         }};
 
         ancientContainer = new StorageBlock("ancient-container"){{
@@ -767,7 +767,7 @@ public class AMBlocks {
 
             itemCapacity = 1200;
 
-            requirements(Category.effect, with(AMItems.aAlloy, 300));
+            requirements(Category.effect, with(AMItems.aCementAlloy, 300));
         }};
 
         //endregion
@@ -977,7 +977,7 @@ public class AMBlocks {
                 }
             };
 
-            requirements(Category.turret, with(AMItems.aAlloy, 200, AMItems.conductor, 32, AMItems.cube, 16));
+            requirements(Category.turret, with(AMItems.aCementAlloy, 200, AMItems.conductor, 32, AMItems.cube, 16));
         }};
 
         ancientRailcannon = new ItemTurret("ancient-railcannon"){{
@@ -1014,7 +1014,7 @@ public class AMBlocks {
             }};
 
             ammo(
-                    AMItems.aAlloy, ARBullets.railcannonBullet1,
+                    AMItems.aCementAlloy, ARBullets.railcannonBullet1,
                     AMItems.cube, ARBullets.railcannonBullet2
             );
 
@@ -1158,7 +1158,7 @@ public class AMBlocks {
                 }
             };
 
-            requirements(Category.turret, with(AMItems.aAlloy, 392, AMItems.conductor, 128, AMItems.cube, 64));
+            requirements(Category.turret, with(AMItems.aCementAlloy, 392, AMItems.conductor, 128, AMItems.cube, 64));
         }};
 
         ancientRaidMissileSilo = new ItemTurret("ancient-raid-missile-silo"){{
@@ -1321,7 +1321,7 @@ public class AMBlocks {
                 );
             }};
 
-            requirements(Category.turret, with(AMItems.aAlloy, 8000, AMItems.conductor, 600, AMItems.cube, 400));
+            requirements(Category.turret, with(AMItems.aCementAlloy, 8000, AMItems.conductor, 600, AMItems.cube, 400));
         }};
 
         //endregion

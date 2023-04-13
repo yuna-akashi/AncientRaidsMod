@@ -7,7 +7,7 @@ import mindustry.type.Item;
 
 public class AMItems {
     public static Item
-    aScrap, aMetal, aGlass, aAlloy, conductor, cube, aAmmo, matter;
+    aScrap, aMetal, aGlass, aCementAlloy, conductor, cube, aAmmo, matter;
 
     public static final Seq<Item> atramaceItems = new Seq<>();
 
@@ -20,7 +20,7 @@ public class AMItems {
             cost = 1.5f;
         }};
         aAmmo = new Item("ancient-ammo", Color.black);
-        aAlloy = new Item("ancient-alloy", Color.yellow){{
+        aCementAlloy = new Item("ancient-cement-alloy", Color.yellow){{
             cost = 15;
             healthScaling = 10;
         }};
@@ -32,7 +32,7 @@ public class AMItems {
         matter = new Item("matter", Color.gray);
 
         atramaceItems.addAll(
-                aScrap, aMetal, aGlass, aAlloy, conductor, cube, aAmmo, matter,
+                aScrap, aMetal, aGlass, aCementAlloy, conductor, cube, aAmmo, matter,
                 Items.graphite, Items.sand, Items.silicon
         );
     }

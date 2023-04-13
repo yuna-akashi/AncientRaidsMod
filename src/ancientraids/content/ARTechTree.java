@@ -129,7 +129,7 @@ public class ARTechTree {
                     nodeProduce(AMItems.conductor, () -> {
                         nodeProduce(AMItems.cube, () -> {});
                     });
-                    nodeProduce(AMItems.aAlloy, () -> {});
+                    nodeProduce(AMItems.aCementAlloy, () -> {});
                 });
 
             });
