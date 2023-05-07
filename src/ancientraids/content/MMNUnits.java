@@ -7,6 +7,7 @@ import arc.math.Interp;
 import arc.math.geom.Rect;
 import mindustry.ai.UnitCommand;
 import mindustry.ai.types.AssemblerAI;
+import mindustry.ai.types.MinerAI;
 import mindustry.content.Fx;
 import mindustry.content.Items;
 import mindustry.content.StatusEffects;
@@ -20,6 +21,7 @@ import mindustry.graphics.Pal;
 import mindustry.type.UnitType;
 import mindustry.type.Weapon;
 import mindustry.type.ammo.ItemAmmoType;
+import mindustry.type.ammo.PowerAmmoType;
 import mindustry.type.unit.TankUnitType;
 import mindustry.type.weapons.BuildWeapon;
 import mindustry.type.weapons.RepairBeamWeapon;
@@ -53,6 +55,8 @@ public class MMNUnits {
     //
 
     static{
+        EntityMapping.nameMap.put(AncientRaids.name("pUnitT1"), EntityMapping.idMap[3]);
+
         EntityMapping.nameMap.put(AncientRaids.name("pTankAlpha"), EntityMapping.idMap[43]);
         EntityMapping.nameMap.put(AncientRaids.name("pTankBeta"), EntityMapping.idMap[43]);
         EntityMapping.nameMap.put(AncientRaids.name("pTankGamma"), EntityMapping.idMap[43]);
@@ -112,16 +116,23 @@ public class MMNUnits {
     public static void load() {
         loadWeapons();
 
+        pUnitT1 = new MMNUnitType("pUnitT1"){{
+            health = 180;
+
+            flying = true;
+            isEnemy = false;
+        }};
+
         //tank
-        pTankAlpha = new MMNUnitType("pTankAlpha"){{
+        pTankAlpha = new MMNTankUnitType("pTankAlpha"){{
             health = 500;
             armor = 5;
         }};
-        pTankBeta = new MMNUnitType("pTankBeta"){{
+        pTankBeta = new MMNTankUnitType("pTankBeta"){{
             health = 2500;
             armor = 75;
         }};
-        pTankGamma = new MMNUnitType("pTankGamma"){{
+        pTankGamma = new MMNTankUnitType("pTankGamma"){{
             health = 5000;
             armor = 150;
         }};
@@ -206,11 +217,23 @@ public class MMNUnits {
 
         //air
         pAirMiner = new MMNUnitType("pAirMiner"){{
+            controller = u -> new MinerAI();
             defaultCommand = UnitCommand.mineCommand;
 
-            health = 240;
+            isEnemy = false;
 
-            hitSize = 10f;
+            flying = true;
+            health = 240;
+            hitSize = 7f;
+
+            drag = 0.06f;
+            accel = 0.12f;
+            speed = 1.5f;
+            engineSize = 1.8f;
+            engineOffset = 5.7f;
+            range = 50f;
+
+            ammoType = new PowerAmmoType(500);
 
             mineTier = 4;
             mineSpeed = 6f;

@@ -229,7 +229,8 @@ public class MMNBlocks {
             consumePower(2);
 
             plans = Seq.with(
-                    new UnitPlan(MMNUnits.pUnitT1, 24 * 60, with(MMNItems.iron, 10, MMNItems.microProcessor, 40))
+                    new UnitPlan(MMNUnits.pUnitT1, 24 * 60, with(MMNItems.iron, 10, MMNItems.microProcessor, 40)),
+                    new UnitPlan(MMNUnits.pAirMiner, 24 * 60, with(MMNItems.iron, 10, MMNItems.microProcessor, 40))
             );
 
             requirements(Category.units, with(MMNItems.steel, 180, MMNItems.microProcessor, 60));
@@ -246,6 +247,8 @@ public class MMNBlocks {
             upgrades.add(
                     new UnitType[]{MMNUnits.pAirMiner, MMNUnits.pAirRepair}
             );
+
+            requirements(Category.units, with(MMNItems.steel, 180, MMNItems.microProcessor, 70));
         }};
         primeRegenerator = new Reconstructor("prime-regenerator"){{
             size = 5;
