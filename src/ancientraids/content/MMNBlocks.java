@@ -187,6 +187,8 @@ public class MMNBlocks {
             unitCapModifier = 15;
             itemCapacity = 5000;
 
+            unitType = MMNUnits.momo;
+
             incinerateNonBuildable = true;
 
             requirements(Category.effect, with(MMNItems.iron, 800));
@@ -199,6 +201,8 @@ public class MMNBlocks {
             unitCapModifier = 25;
             itemCapacity = 10000;
 
+            unitType = MMNUnits.mona;
+
             incinerateNonBuildable = true;
 
             requirements(Category.effect, with(MMNItems.steel, 1500));
@@ -210,6 +214,8 @@ public class MMNBlocks {
 
             unitCapModifier = 40;
             itemCapacity = 20000;
+
+            unitType = MMNUnits.momona;
 
             incinerateNonBuildable = true;
 

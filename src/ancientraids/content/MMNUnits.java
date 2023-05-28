@@ -14,6 +14,7 @@ import mindustry.content.StatusEffects;
 import mindustry.entities.abilities.ForceFieldAbility;
 import mindustry.entities.bullet.BombBulletType;
 import mindustry.entities.bullet.BulletType;
+import mindustry.entities.bullet.LaserBulletType;
 import mindustry.entities.part.RegionPart;
 import mindustry.entities.pattern.ShootAlternate;
 import mindustry.gen.EntityMapping;
@@ -31,6 +32,8 @@ import mindustry.world.meta.Env;
 import static mindustry.Vars.tilesize;
 
 public class MMNUnits {
+    public static Weapon momona_weapon;
+
     //Player's units. Units made by adapting ancient units.
     public static UnitType
             //generic
@@ -110,7 +113,6 @@ public class MMNUnits {
     }
 
     private static void loadWeapons(){
-
     }
 
     public static void load() {
@@ -409,24 +411,119 @@ public class MMNUnits {
 
         //core
         momo = new MMNUnitType("momo"){{
+            lowAltitude = true;
+            isEnemy = false;
+
             health = 2500;
+            hitSize = 10f;
+            drag = 0.05f;
+            speed = 3f;
+            rotateSpeed = 15f;
+            accel = 0.1f;
+
+            itemCapacity = 60;
+
+            flying = true;
 
             mineTier = 4;
-            mineSpeed = 5f;
+            mineSpeed = 6f;
+            buildSpeed = 6f;
+            buildBeamOffset = 6f;
+
+            alwaysUnlocked = true;
+
+            weapons.add(
+                    new Weapon(){{
+                        mirror = false;
+                        x = 0;
+                        y = 6f;
+                        reload = 17f;
+
+                        bullet = new LaserBulletType(18){{
+                            pierce = false;
+                            width = 2f;
+                            length = 80f;
+                            lifetime = 60f * 0.2f;
+                            buildingDamageMultiplier = 0.2f;
+                        }};
+                    }}
+            );
         }};
 
         mona = new MMNUnitType("mona"){{
+            lowAltitude = true;
+            isEnemy = false;
+
             health = 3000;
+            hitSize = 14f;
+            drag = 0.05f;
+            speed = 3f;
+            rotateSpeed = 15f;
+            accel = 0.1f;
+
+            itemCapacity = 100;
+
+            flying = true;
 
             mineTier = 6;
-            mineSpeed = 10f;
+            mineSpeed = 18f;
+            mineWalls = true;
+            buildSpeed = 18f;
+            buildBeamOffset = 10f;
+
+            weapons.add(
+                    new Weapon(){{
+                        reload = 17f;
+                        mirror = false;
+                        x = 0;
+                        y = 10f;
+
+                        bullet = new LaserBulletType(24){{
+                            pierce = false;
+                            width = 4f;
+                            length = 100f;
+                            lifetime = 60f * 0.2f;
+                            buildingDamageMultiplier = 0.4f;
+                        }};
+                    }}
+            );
         }};
 
         momona = new MMNUnitType("momona"){{
+            lowAltitude = true;
+            isEnemy = false;
+
             health = 5000;
+            hitSize = 20f;
+            drag = 0.05f;
+            speed = 3f;
+            rotateSpeed = 15f;
+            accel = 0.1f;
+
+            itemCapacity = 180;
+
+            flying = true;
 
             mineTier = 10;
-            mineSpeed = 20f;
+            mineSpeed = 30f;
+            buildSpeed = 30f;
+            buildBeamOffset = 12f;
+
+            weapons.add(
+                    new Weapon(){{
+                        mirror = false;
+                        x = 0;
+                        y = 12f;
+                        reload = 17f;
+
+                        bullet = new LaserBulletType(32){{
+                            width = 6f;
+                            length = 200f;
+                            lifetime = 60f * 0.2f;
+                            buildingDamageMultiplier = 0.8f;
+                        }};
+                    }}
+            );
         }};
 
         //special
