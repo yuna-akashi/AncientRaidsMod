@@ -6,7 +6,7 @@ import mindustry.world.meta.Attribute;
 
 public class ARContent extends Content {
 
-    public static Attribute aScrap;
+    public static Attribute aScrap, limestone, clay;
 
     @Override
     public ContentType getContentType() {
@@ -15,6 +15,8 @@ public class ARContent extends Content {
 
     public static void loadBeforeContentLOad() {
         aScrap = Attribute.add("ancient-scrap");
+        limestone = Attribute.add("limestone");
+        clay = Attribute.add("clay");
     }
 
     public void load(){

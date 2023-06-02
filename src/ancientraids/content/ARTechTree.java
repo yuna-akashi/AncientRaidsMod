@@ -9,7 +9,7 @@ public class ARTechTree {
     private static void loadMMN(){
         ARPlanets.atramace.techTree = nodeRoot("momona-tech", coreBase, () -> {
 
-            node(coreCluster, () -> {
+            node(coreMona, () -> {
                 node(coreMomona);
             });
 

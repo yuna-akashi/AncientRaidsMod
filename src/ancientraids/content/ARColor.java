@@ -12,7 +12,10 @@ public class ARColor {
             ancientYellow = Color.valueOf("919100"),
             mmnColor3 = Color.valueOf("777777"),
             mmnColor2 = Color.valueOf("939393"),
-            mmnColor1 = Color.valueOf("bebebe")
+            mmnColor1 = Color.valueOf("bebebe"),
+            coreLightColor = Color.valueOf("faceef"),
+            coreDefaultColor = Color.valueOf("faceef"),
+            coreDarkColor = Color.valueOf("9c7c94")
     ;
 
     static {
@@ -24,5 +27,8 @@ public class ARColor {
         Colors.put("momona-color-1", mmnColor1);
         Colors.put("momona-color-2", mmnColor2);
         Colors.put("momona-color-3", mmnColor3);
+        Colors.put("core-light-color", coreLightColor);
+        Colors.put("core-default-color", coreDefaultColor);
+        Colors.put("core-dark-color", coreDarkColor);
     }
 }

@@ -47,7 +47,8 @@ public class MMNUnits {
             //fighter
             recon, launcher, bommer,
             //support air
-            pAirMiner, pAirRepair, pAirReBuilder, pAirHealer, pAirCarrier
+            pAirMiner, pAirRepair, pAirReBuilder, pAirHealer, pAirCarrier,
+            mmnUnit
     ;
     //
     //core units
@@ -84,6 +85,8 @@ public class MMNUnits {
         EntityMapping.nameMap.put(AncientRaids.name("recon"), EntityMapping.idMap[3]);
         EntityMapping.nameMap.put(AncientRaids.name("launcher"), EntityMapping.idMap[3]);
         EntityMapping.nameMap.put(AncientRaids.name("bommer"), EntityMapping.idMap[3]);
+
+        EntityMapping.nameMap.put(AncientRaids.name("mmnUnit"), EntityMapping.idMap[5]);
 
         EntityMapping.nameMap.put(AncientRaids.name("momo"), EntityMapping.idMap[3]);
         EntityMapping.nameMap.put(AncientRaids.name("mona"), EntityMapping.idMap[3]);
@@ -504,7 +507,7 @@ public class MMNUnits {
 
             flying = true;
 
-            mineTier = 10;
+            mineTier = 8;
             mineSpeed = 30f;
             buildSpeed = 30f;
             buildBeamOffset = 12f;
@@ -520,7 +523,7 @@ public class MMNUnits {
                             width = 6f;
                             length = 200f;
                             lifetime = 60f * 0.2f;
-                            buildingDamageMultiplier = 0.8f;
+                            buildingDamageMultiplier = 0.6f;
                         }};
                     }}
             );

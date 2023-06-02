@@ -2,15 +2,20 @@ package ancientraids.content;
 
 import arc.struct.Seq;
 import mindustry.content.Items;
+import mindustry.content.Liquids;
+import mindustry.gen.Sounds;
 import mindustry.type.Category;
 import mindustry.type.ItemStack;
 import mindustry.type.PayloadStack;
 import mindustry.type.UnitType;
 import mindustry.world.Block;
 import mindustry.world.blocks.defense.Wall;
+import mindustry.world.blocks.distribution.Duct;
+import mindustry.world.blocks.distribution.ItemBridge;
+import mindustry.world.blocks.environment.Floor;
 import mindustry.world.blocks.environment.OreBlock;
-import mindustry.world.blocks.production.AttributeCrafter;
-import mindustry.world.blocks.production.GenericCrafter;
+import mindustry.world.blocks.environment.StaticWall;
+import mindustry.world.blocks.production.*;
 import mindustry.world.blocks.storage.CoreBlock;
 import mindustry.world.blocks.units.Reconstructor;
 import mindustry.world.blocks.units.UnitAssembler;
@@ -19,32 +24,37 @@ import mindustry.world.blocks.units.UnitFactory;
 import mindustry.world.draw.DrawDefault;
 import mindustry.world.draw.DrawFlame;
 import mindustry.world.draw.DrawMulti;
+import mindustry.world.draw.DrawParticles;
+import mindustry.world.meta.Attribute;
 
 import static mindustry.type.ItemStack.with;
 
 public class MMNBlocks {
     public static Block
             //environment
-            ironOre,
+            ironOre, limestoneFloor, limestoneUnit, clayUnit,
             //crafting
-            cementMixer, mmnCementAlloyARCMixer, steelSmelter, processorFactory, mmnProcessorFactory, mmnAlloySmelter,
+            steelSmelter, processorFactory, diamondCompressor, mmnAlloySmelter, mmnProcessorFactory, mmnCementAlloyARCMixer, mmnHSource,
             //wall
-            ironWall, cementWall, mmnCementAlloyWallLarge, steelWallLarge, mmnAlloyWall, mmnAlloyWallLarge,
+            ironWall, mmnCementAlloyWallLarge, steelWallLarge, mmnAlloyWall, mmnAlloyWallLarge,
             //defence
             //distribution
-            ironDuct,
+            ironDuct, mmnTransporter, mmnRTransporter, mmnBridge, mmnUnloader, mmnISource,
             //liquid
+            mmnRConduit, mmnLJunction, mmnCRouter, mmnCBridge, mmnLContainer, mmnTank, mmnLSource,
             //power
+            nuclearFusionReactor, mmnPSource,
             //drill
-            ironDrill, ironBeamDrill, steelDrill, steelBeamDrill, mmnDrill, mmnSuperBurstDrill,
+            ironDrill, ironBeamDrill, clayCrusher, limestoneCrusher, steelBeamDrill, mmnDrill, mmnSuperBurstDrill,
             //storage
-            coreBase, coreCluster, coreMomona,
+            coreBase, coreMona, coreMomona, mmnContainer, mmnVault,
             //turret
             //unit->payload
-            unitGenerator, tankGenerator, mechGenerator, shipGenerator, airGenerator,
+            unitGenerator, tankGenerator, mechGenerator, shipGenerator,
             unitRegenerator, primeRegenerator,
             unitRegenerationMachine, tankRegenerationMachine, mechRegenerationMachine, shipRegenerationMachine,
             unitRebornMachine, tankRebornMachine, mechRebornMachine, shipRebornMachine,
+            momonaUnitGenerator,
             upgradeModule,
             ancientRepairTower
     ;
@@ -54,6 +64,20 @@ public class MMNBlocks {
             oreDefault = true;
             oreThreshold = 0.815f;
             oreScale = 23.7f;
+        }};
+
+        limestoneFloor = new Floor("limestone-floor"){{
+            attributes.set(ARContent.limestone, 0.4f);
+        }};
+
+        limestoneUnit = new StaticWall("limestone-unit"){{
+            attributes.set(ARContent.limestone, 0.4f);
+            variants = 1;
+        }};
+
+        clayUnit = new StaticWall("clay-unit"){{
+            attributes.set(ARContent.clay, 0.4f);
+            variants = 1;
         }};
     }
 
@@ -66,46 +90,6 @@ public class MMNBlocks {
 
         //crafting
 
-        cementMixer = new AttributeCrafter("cement-mixer"){{
-            size = 3;
-            health = 80 * size;
-
-            baseEfficiency = 0;
-            minEfficiency = 1f;
-
-            displayEfficiency = false;
-
-            hasPower = false;
-
-            consumeItems(with(Items.sand, 3));
-            outputItem = new ItemStack(MMNItems.cement, 1);
-            craftTime = 60f;
-
-            drawer = new DrawMulti(
-                    new DrawDefault()
-            );
-
-            //requirements(Category.crafting, with(MMNItems.iron, 180));
-        }};
-        mmnCementAlloyARCMixer = new AttributeCrafter("mmn-cement-alloy-arc-mixer"){{
-            size = 3;
-            health = mmnHP * size;
-
-            baseEfficiency = 0;
-            minEfficiency = 1f;
-
-            displayEfficiency = false;
-
-            consumeItems(with(Items.sand, 3, MMNItems.mmnAlloy, 1));
-            outputItem = new ItemStack(MMNItems.mmnCementAlloy, 1);
-            craftTime = 1.33f * 60f;
-
-            drawer = new DrawMulti(
-                    new DrawDefault()
-            );
-
-            //requirements(Category.crafting, with(MMNItems.mmnAlloy, 20));
-        }};
         steelSmelter = new GenericCrafter("steel-smelter"){{
             size = 2;
             health = 80 * size;
@@ -119,7 +103,89 @@ public class MMNBlocks {
                     new DrawDefault(), new DrawFlame()
             );
 
-            requirements(Category.crafting, with(MMNItems.iron, 120));
+            requirements(Category.crafting, with(MMNItems.clay, 260, MMNItems.iron, 120));
+        }};
+
+        processorFactory = new GenericCrafter("processor-factory"){{
+            size = 2;
+            health = baseHP * size * size;
+
+            consumeItems(with(Items.graphite, 3, Items.sand, 2, MMNItems.steel, 2));
+            outputItem = new ItemStack(MMNItems.microProcessor, 1);
+            craftTime = 1.2f * 60f;
+
+            drawer = new DrawMulti(
+                    new DrawDefault(), new DrawFlame()
+            );
+
+            requirements(Category.crafting, with(MMNItems.clay, 280, MMNItems.steel, 140));
+        }};
+
+        diamondCompressor = new GenericCrafter("diamond-compressor"){{
+            size = 2;
+            health = baseHP * size * size;
+
+            consumeItems(with(Items.graphite, 4));
+            outputItem = new ItemStack(MMNItems.diamond, 1);
+            craftTime = 3f * 60f;
+
+            drawer = new DrawMulti(
+                    new DrawDefault(), new DrawParticles()
+            );
+
+            requirements(Category.crafting, with(MMNItems.steel, 200, MMNItems.microProcessor, 60));
+        }};
+
+        mmnAlloySmelter = new GenericCrafter("mmn-alloy-smelter"){{
+            size = 3;
+            health = baseHP * size * size;
+
+            consumeItems(with(MMNItems.steel, 2, MMNItems.diamond, 2, MMNItems.microProcessor, 2));
+            outputItem = new ItemStack(MMNItems.mmnAlloy, 1);
+            craftTime = 2f * 60f;
+
+            drawer = new DrawMulti(
+                    new DrawDefault()
+            );
+
+            requirements(Category.crafting, with(MMNItems. clay, 300, MMNItems.steel, 150, MMNItems.microProcessor, 100));
+        }};
+
+        mmnProcessorFactory = new GenericCrafter("mmn-processor-factory"){{
+            size = 3;
+            health = mmnHP * size * size;
+
+            consumeItems(with(MMNItems.microProcessor, 2, MMNItems.mmnAlloy, 1));
+            outputItem = new ItemStack(MMNItems.mmnProcessor, 1);
+            craftTime = 1.75f * 60f;
+
+            drawer = new DrawMulti(
+                    new DrawDefault(), new DrawFlame()
+            );
+
+            requirements(Category.crafting, with(MMNItems.mmnAlloy, 120, MMNItems.microProcessor, 80));
+        }};
+
+        mmnCementAlloyARCMixer = new AttributeCrafter("mmn-cement-alloy-arc-mixer"){{
+            size = 3;
+            health = mmnHP * size * size;
+
+            attribute = Attribute.steam;
+
+
+            baseEfficiency = 0;
+            minEfficiency = 9f - 0.0001f;
+            displayEfficiency = false;
+
+            consumeItems(with(MMNItems.limestone, 2, MMNItems.clay, 2, MMNItems.mmnAlloy, 1));
+            outputItem = new ItemStack(MMNItems.mmnCementAlloy, 1);
+            craftTime = 1.33f * 60f;
+
+            drawer = new DrawMulti(
+                    new DrawDefault()
+            );
+
+            requirements(Category.crafting, with(MMNItems.mmnAlloy, 240, MMNItems.mmnProcessor, 100));
         }};
 
         //end
@@ -131,18 +197,7 @@ public class MMNBlocks {
 
             requirements(Category.defense, with(MMNItems.iron, 8));
         }};
-        cementWall = new Wall("cement-wall"){{
-            size = 1;
-            health = baseHP * wallHPMultiplier;
 
-            requirements(Category.defense, with(MMNItems.cement, 8));
-        }};
-        mmnCementAlloyWallLarge = new Wall("mmn-cement-alloy-wall-large"){{
-            size = 2;
-            health = mmnHP * size * wallHPMultiplier;
-
-            requirements(Category.defense, with(MMNItems.mmnCementAlloy, 32));
-        }};
         steelWallLarge = new Wall("steel-wall-large"){{
             size = 2;
             health = 100 * size * size * wallHPMultiplier;
@@ -161,12 +216,56 @@ public class MMNBlocks {
 
             requirements(Category.defense,with(MMNItems.mmnAlloy, 32));
         }};
+        mmnCementAlloyWallLarge = new Wall("mmn-cement-alloy-wall-large"){{
+            size = 2;
+            health = 500;
+
+            requirements(Category.defense, with(MMNItems.mmnCementAlloy, 32));
+        }};
 
         //end
         //defence
 
         //end
         //distribution
+
+        mmnTransporter = new Duct("mmn-transporter"){{
+            size = 1;
+            health = mmnHP;
+
+            speed = 3f;
+
+            researchCost = with(MMNItems.mmnAlloy, 5);
+
+            requirements(Category.distribution, with(MMNItems.mmnAlloy, 1));
+        }};
+
+        mmnRTransporter = new Duct("mmn-reinforced-transporter"){{
+            size = 1;
+            health = mmnHP + mmnHP/2;
+
+            speed = 3f;
+
+            armored = true;
+
+            researchCost = with(MMNItems.mmnAlloy, 5);
+
+            requirements(Category.distribution, with(MMNItems.mmnAlloy, 1));
+        }};
+
+        mmnBridge = new ItemBridge("mmn-bridge"){{
+            size = 1;
+            health = mmnHP;
+
+            range = 20;
+            arrowPeriod = 0.9f;
+            arrowTimeScl = 2.75f;
+            hasPower = false;
+            pulse = true;
+
+
+            requirements(Category.distribution, with(MMNItems.mmnAlloy, 4, MMNItems.mmnProcessor, 2));
+        }};
 
         //end
         //liquid
@@ -176,6 +275,57 @@ public class MMNBlocks {
 
         //end
         //drill
+
+        ironDrill = new Drill("iron-drill"){{
+            size = 2;
+            health = baseHP * size * size;
+
+            tier = 3;
+            drillTime = 500;
+
+            consumeLiquid(Liquids.water, 0.055f).boost();
+
+            requirements(Category.production, with(MMNItems.iron, 12));
+        }};
+
+        ironBeamDrill = new BeamDrill("iron-beam-drill"){{
+            size = 2;
+            health = baseHP * size * size;
+
+            drillTime = 160f;
+            tier = 3;
+            range = 5;
+            fogRadius = 3;
+            consumeLiquid(Liquids.water, 0.6f).boost();
+
+            requirements(Category.production, with(MMNItems.iron, 40));
+        }};
+
+        limestoneCrusher = new WallCrafter("limestone-crusher"){{
+            size = 2;
+            health = baseHP * size * size;
+
+            drillTime = 110f;
+            attribute = ARContent.limestone;
+            output = MMNItems.limestone;
+            fogRadius = 2;
+            ambientSound = Sounds.drill;
+            ambientSoundVolume = 0.04f;
+
+            requirements(Category.production, with(MMNItems.steel, 40));
+        }};
+
+        clayCrusher = new WallCrafter("clay-crusher"){{
+            drillTime = 110f;
+            size = 2;
+            attribute = ARContent.clay;
+            output = MMNItems.clay;
+            fogRadius = 2;
+            ambientSound = Sounds.drill;
+            ambientSoundVolume = 0.04f;
+
+            requirements(Category.production, with(MMNItems.steel, 80));
+        }};
 
         //end
         //storage
@@ -194,7 +344,7 @@ public class MMNBlocks {
             requirements(Category.effect, with(MMNItems.iron, 800));
         }};
 
-        coreCluster = new CoreBlock("core-cluster"){{
+        coreMona = new CoreBlock("core-cluster"){{
             size = 4;
             health = baseHP * size * size;
 
@@ -429,6 +579,21 @@ public class MMNBlocks {
             );
 
             requirements(Category.units, with(MMNItems.mmnAlloy, 360, MMNItems.mmnProcessor, 180));
+        }};
+        momonaUnitGenerator = new UnitAssembler("mmn-unit-generator"){{
+            size = 11;
+            health = mmnHP * size * size;
+
+            consumePower(36);
+            droneType = MMNUnits.mmnAssemblyDrone;
+
+            areaSize = 40;
+
+            plans.add(
+                    new AssemblerUnitPlan(MMNUnits.mmnUnit, 75 * 60, PayloadStack.list(MMNUnits.pUnitT1, 200, MMNBlocks.mmnCementAlloyWallLarge, 600, MMNBlocks.mmnAlloyWall, 300))
+            );
+
+            requirements(Category.units, with(MMNItems.mmnAlloy, 1220, MMNItems.mmnProcessor, 360));
         }};
         upgradeModule = new UnitAssemblerModule("upgrade-module"){{
             size = 5;
